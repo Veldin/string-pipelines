@@ -1,6 +1,10 @@
 package com.veldin.stringpipelines;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Common reusable string operations backed by
+ * Apache Commons Lang StringUtils.
+ */
 public enum EStringOperation implements IStringOperation {
 
     CAPITALIZE(StringUtils::capitalize),

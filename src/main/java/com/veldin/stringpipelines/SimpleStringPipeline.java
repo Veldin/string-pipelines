@@ -2,6 +2,10 @@ package com.veldin.stringpipelines;
 
 import java.util.List;
 
+/**
+ * Basic pipeline implementation that executes
+ * operations sequentially without caching.
+ */
 public class SimpleStringPipeline extends AbstractStringPipeline {
 
     protected static SimpleStringPipeline Of(List<IStringOperation> operations) {
