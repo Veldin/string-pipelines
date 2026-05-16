@@ -22,11 +22,6 @@ public abstract class AbstractStringPipeline implements IStringOperation {
         return value;
     }
 
-    // used by builder for cycle validation
-    protected List<IStringOperation> getOperations() {
-        return operations;
-    }
-
     public void clearDeep() {
 
         for (IStringOperation op : operations) {
