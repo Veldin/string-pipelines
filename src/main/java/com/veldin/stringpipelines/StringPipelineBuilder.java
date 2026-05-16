@@ -1,6 +1,8 @@
 package com.veldin.stringpipelines;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class StringPipelineBuilder {
 
@@ -16,7 +18,7 @@ public class StringPipelineBuilder {
     private boolean cached = false;
 
     /**
-     * Enables cache for the generated pipeline.
+     * Enables caching for the generated pipeline.
      *
      * @return current builder instance
      */
@@ -26,7 +28,7 @@ public class StringPipelineBuilder {
     }
 
     /**
-     * Disables cache for the generated pipeline.
+     * Disables caching for the generated pipeline.
      *
      * @return current builder instance
      */
@@ -71,11 +73,9 @@ public class StringPipelineBuilder {
     /**
      * Builds either:
      * - SimpleStringPipeline
-     * - StringPipeline (cached)
+     * - CachedStringPipeline
      */
     public AbstractStringPipeline build() {
-
-        validateNoCycles();
 
         List<IStringOperation> ops = List.copyOf(operations);
 
@@ -84,51 +84,5 @@ public class StringPipelineBuilder {
         }
 
         return SimpleStringPipeline.Of(ops);
-    }
-
-    private void validateNoCycles() {
-
-        Set<String> visiting = new HashSet<>();
-        Set<String> visited = new HashSet<>();
-
-        for (IStringOperation op : operations) {
-            detectCycle(op, visiting, visited);
-        }
-    }
-
-    private void detectCycle(IStringOperation op,
-                             Set<String> visiting,
-                             Set<String> visited) {
-
-        String id = identity(op);
-
-        if (visited.contains(id)) {
-            return;
-        }
-
-        if (visiting.contains(id)) {
-            throw new IllegalStateException(
-                    "Cycle detected in pipeline: " + id
-            );
-        }
-
-        visiting.add(id);
-
-        // recurse into nested pipelines
-        if (op instanceof AbstractStringPipeline pipeline) {
-
-            for (IStringOperation inner : pipeline.getOperations()) {
-                detectCycle(inner, visiting, visited);
-            }
-        }
-
-        visiting.remove(id);
-        visited.add(id);
-    }
-
-    private String identity(IStringOperation op) {
-        return op.getClass().getName()
-                + "@"
-                + System.identityHashCode(op);
     }
 }
