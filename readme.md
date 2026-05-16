@@ -1,4 +1,4 @@
-# Welcome to [StringPipelines](https://github.com/Veldin/ResultTryEx)!
+# Welcome to [StringPipelines](https://github.com/Veldin/string-pipelines)!
 
 A small string utils library for Java that allows you to build reusable and testable string processing flows.
 
