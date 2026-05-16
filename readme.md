@@ -27,7 +27,7 @@ The pipeline classes are responsible for actually processing strings.
 
 ## More examples
 
-You can easily create reusable pipelines for little tasks like generating slugs:
+You can easily create reusable pipelines for small tasks like generating slugs:
 
 ```java
     @Test
@@ -80,7 +80,7 @@ This gives the following output:
 
 ## Functional Interface
 
-I have defined the following function interface to let anyone define any pipeline step aslong as it takes a string, and return a string.
+I have defined the following functional interface to let anyone define a pipeline step, as long as it takes a string and returns a string.
 
 ```java
     @FunctionalInterface
@@ -89,7 +89,7 @@ I have defined the following function interface to let anyone define any pipelin
     }
 ```
 
-Using org.apache.commons::commons-lang3 I've created the following enum with some basic string operations.
+Using org.apache.commons:commons-lang3, I created the following enum with some basic string operations.
 
 ```java
 CAPITALIZE
@@ -112,7 +112,7 @@ UNCAPITALIZE
 UPPER_CASE
 ```
 
-But you can use anything aslong as it takes a string and returns a string, for example, we can use both "capitalize" from this library, from StringUtils, or make something yourself.
+But you can use anything as long as it takes a string and returns a string, for example, we can use both "capitalize" from this library, from StringUtils, or make something yourself.
 
 ```java
     .pipe(CAPITALIZE)                           // From this library
@@ -120,7 +120,7 @@ But you can use anything aslong as it takes a string and returns a string, for e
     .pipe(string -> myOwnFunction(string))      // From yourself
 ```
 
-And ofcource you can also do some reggex. I think this library makes it nice to do multiple reggex acctions in a row on a string.
+And of course, you can also use some regex. I think this library makes it nice to perform multiple regex actions in a row on a string.
 
 ```java
     .pipe(s -> s.replaceAll("\d+", ""))        // remove all digits.
@@ -129,7 +129,7 @@ And ofcource you can also do some reggex. I think this library makes it nice to 
 
 ## Nested pipelines
 
-Because pipelines take strings, and return strings, you can use pipelines inside pipelines. In this example the first pipeline runs TRIM and LOWER_CASE, and then we have a second pipeline that also calls REVERSE on the string.
+Because pipelines take strings and return strings, you can use pipelines inside other pipelines.
 
 ```java
     @Test
@@ -151,7 +151,7 @@ Because pipelines take strings, and return strings, you can use pipelines inside
     }
 ```
 
-## implementations
+## Implementations
 
 The implementations of the pipeline classes are responsible for actually processing strings.
 
@@ -165,7 +165,7 @@ There are two implementations:
 
 Both extend AbstractStringPipeline.
 
-Default a SimpleStringPipeline is created using the builder.
+By default, a SimpleStringPipeline is created using the builder.
 
 ```java
 AbstractStringPipeline inner = new StringPipelineBuilder()
@@ -186,7 +186,7 @@ AbstractStringPipeline inner = new StringPipelineBuilder()
         .build();
 ```
 
-When using the CachedStringPipeline, the given input is checked to exist inside the its map. If it doesn't it runs all operations and stores the value inside the map and returns the value. Then next time the same input is seen, the value from the map is returned instead.
+When using the CachedStringPipeline, the given input is checked to exist inside the its map. If it does not exist, the pipeline runs all operations, stores the result in the map, and returns it. Then next time the same input is seen, the value from the map is returned instead.
 
 Note that Caching assumes pure functions. This makes it ideal for deterministic transformations like regex-heavy pipelines.
 
