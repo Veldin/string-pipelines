@@ -1,0 +1,38 @@
+package com.veldin.codepointpipelines;
+
+import com.veldin.codepointpipelines.utils.CodePointUtils;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ECodePointOperationTest {
+
+    @Test
+    @DisplayName("CAPITALIZE should behave the same as CodePointUtils.capitalize")
+    void capitalizeShouldMatchCodePointsUtils() {
+
+        int[] input = "hello world".codePoints().toArray();
+
+        assertEquals(
+                codePointsToString(CodePointUtils.capitalize(input)),
+                codePointsToString(ECodePointOperation.CAPITALIZE.apply(input))
+        );
+    }
+
+    @Test
+    @DisplayName("CHOMP should behave the same as CodePointUtils.capitalize")
+    void chompShouldMatchCodePointsUtils() {
+
+        int[] input = "hello world\n".codePoints().toArray();
+
+        assertEquals(
+                codePointsToString(CodePointUtils.chomp(input)),
+                codePointsToString(ECodePointOperation.CHOMP.apply(input))
+        );
+    }
+
+    private String codePointsToString(int[] input) {
+        return new String(input, 0, input.length);
+    }
+}

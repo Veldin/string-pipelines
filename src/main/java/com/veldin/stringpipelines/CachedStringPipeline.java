@@ -39,13 +39,4 @@ public class CachedStringPipeline extends AbstractStringPipeline {
 
         return value;
     }
-
-    public void clearCache() {
-        cache.clear();
-    }
-
-    @Override
-    protected void clear() {
-        clearCache();
-    }
 }

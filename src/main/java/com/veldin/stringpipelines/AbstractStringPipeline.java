@@ -21,24 +21,4 @@ public abstract class AbstractStringPipeline implements IStringOperation {
 
         return value;
     }
-
-    public void clearDeep() {
-
-        for (IStringOperation op : operations) {
-
-            // recurse into nested pipelines
-            if (op instanceof AbstractStringPipeline pipeline) {
-                pipeline.clearDeep();
-            }
-        }
-
-        clear();
-    }
-
-    /**
-     * Override in subclasses that have state/cache.
-     */
-    protected void clear() {
-        // nothing by default
-    }
 }

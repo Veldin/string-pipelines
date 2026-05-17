@@ -176,7 +176,7 @@ AbstractStringPipeline inner = new StringPipelineBuilder()
 
 ## CachedStringPipeline
 
-Cashed() can be called to make clear you want the CashedStringPipeline instead.
+Cashed() can be called to make the builder create a CashedStringPipeline instead.
 
 ```java
 AbstractStringPipeline inner = new StringPipelineBuilder()
