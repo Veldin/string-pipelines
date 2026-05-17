@@ -22,7 +22,7 @@ The pipeline classes are responsible for actually processing strings.
 
 ```java
     String result = simpleStringPipeline.apply(" this is a Simple  pipeline. ");
-    assertEquals("This is a simple pipeline.", result);
+assertEquals("This is a simple pipeline.", result);
 ```
 
 ## More examples
@@ -31,51 +31,51 @@ You can easily create reusable pipelines for small tasks like generating slugs:
 
 ```java
     @Test
-    void createSlugExampleList() {
-        
-        AbstractStringPipeline slugPipeline =
-                new StringPipelineBuilder()
-                        .pipe(TRIM)
-                        .pipe(LOWER_CASE)
-                        .pipe(s -> s.replaceAll("\\s+", "-"))
-                        .build();
+void createSlugExampleList() {
 
-        List<String> games = List.of(
-                "Title	Released",
-                "Grand Theft Auto: San Andreas	2004",
-                "Grand Theft Auto: Vice City	2002",
-                "Tony Hawk's Pro Skater 3	2001",
-                "Final Fantasy XII	2006",
-                "Jak and Daxter: The Precursor Legacy	2001",
-                "Ratchet & Clank: Up Your Arsenal	2004",
-                "Kingdom Hearts II	2005",
-                "Bully	2006",
-                "TimeSplitters: Future Perfect	2005",
-                "Jak 3	2004",
-                "Jak II	2003"
-        );
+    AbstractStringPipeline slugPipeline =
+            new StringPipelineBuilder()
+                    .pipe(TRIM)
+                    .pipe(LOWER_CASE)
+                    .pipe(s -> s.replaceAll("\\s+", "-"))
+                    .build();
 
-        List<String> out = new ArrayList<>();
-        for (String game : games){
-            out.add(slugPipeline.apply(game));
-        }
+    List<String> games = List.of(
+            "Title	Released",
+            "Grand Theft Auto: San Andreas	2004",
+            "Grand Theft Auto: Vice City	2002",
+            "Tony Hawk's Pro Skater 3	2001",
+            "Final Fantasy XII	2006",
+            "Jak and Daxter: The Precursor Legacy	2001",
+            "Ratchet & Clank: Up Your Arsenal	2004",
+            "Kingdom Hearts II	2005",
+            "Bully	2006",
+            "TimeSplitters: Future Perfect	2005",
+            "Jak 3	2004",
+            "Jak II	2003"
+    );
 
+    List<String> out = new ArrayList<>();
+    for (String game : games){
+        out.add(slugPipeline.apply(game));
     }
+
+}
 ```
 This gives the following output:
 ```java
     0 = "title-released"
-    1 = "grand-theft-auto:-san-andreas-2004"
-    2 = "grand-theft-auto:-vice-city-2002"
-    3 = "tony-hawk's-pro-skater-3-2001"
-    4 = "final-fantasy-xii-2006"
-    5 = "jak-and-daxter:-the-precursor-legacy-2001"
-    6 = "ratchet-&-clank:-up-your-arsenal-2004"
-    7 = "kingdom-hearts-ii-2005"
-    8 = "bully-2006"
-    9 = "timesplitters:-future-perfect-2005"
-    10 = "jak-3-2004"
-    11 = "jak-ii-2003"
+        1 = "grand-theft-auto:-san-andreas-2004"
+        2 = "grand-theft-auto:-vice-city-2002"
+        3 = "tony-hawk's-pro-skater-3-2001"
+        4 = "final-fantasy-xii-2006"
+        5 = "jak-and-daxter:-the-precursor-legacy-2001"
+        6 = "ratchet-&-clank:-up-your-arsenal-2004"
+        7 = "kingdom-hearts-ii-2005"
+        8 = "bully-2006"
+        9 = "timesplitters:-future-perfect-2005"
+        10 = "jak-3-2004"
+        11 = "jak-ii-2003"
 ```
 
 ## Functional Interface
@@ -84,32 +84,32 @@ I have defined the following functional interface to let anyone define a pipelin
 
 ```java
     @FunctionalInterface
-    public interface IStringOperation {
-        String apply(String input);
-    }
+public interface IStringOperation {
+    String apply(String input);
+}
 ```
 
 Using org.apache.commons:commons-lang3, I created the following enum with some basic string operations.
 
 ```java
 CAPITALIZE
-CHOMP
+        CHOMP
 CHOP
-DEFAULT_STRING
+        DEFAULT_STRING
 DELETE_WHITESPACE
-GET_DIGITS
+        GET_DIGITS
 LOWER_CASE
-NORMALIZE_SPACE
+        NORMALIZE_SPACE
 REVERSE
-STRIP
+        STRIP
 STRIP_TO_EMPTY
-STRIP_TO_NULL
+        STRIP_TO_NULL
 SWAP_CASE
-TRIM
+        TRIM
 TRIM_TO_EMPTY
-TRIM_TO_NULL
+        TRIM_TO_NULL
 UNCAPITALIZE
-UPPER_CASE
+        UPPER_CASE
 ```
 
 But you can use anything as long as it takes a string and returns a string, for example, we can use both "capitalize" from this library, from StringUtils, or make something yourself.
@@ -124,7 +124,7 @@ And of course, you can also use some regex. I think this library makes it nice t
 
 ```java
     .pipe(s -> s.replaceAll("\d+", ""))        // remove all digits.
-    .pipe(s -> s.replaceAll("\\s+", "_"))      // then replaces whitespace (groups) with underscore.
+        .pipe(s -> s.replaceAll("\\s+", "_"))      // then replaces whitespace (groups) with underscore.
 ```
 
 ## Nested pipelines
@@ -133,22 +133,22 @@ Because pipelines take strings and return strings, you can use pipelines inside 
 
 ```java
     @Test
-    void shouldAllowNestedPipelinesWithoutCycles() {
+void shouldAllowNestedPipelinesWithoutCycles() {
 
-        AbstractStringPipeline inner = new StringPipelineBuilder()
-                .pipe(EStringOperation.TRIM)
-                .pipe(EStringOperation.LOWER_CASE)
-                .build();
+    AbstractStringPipeline inner = new StringPipelineBuilder()
+            .pipe(EStringOperation.TRIM)
+            .pipe(EStringOperation.LOWER_CASE)
+            .build();
 
-        AbstractStringPipeline outer = new StringPipelineBuilder()
-                .pipe(inner)
-                .pipe(EStringOperation.REVERSE)
-                .build();
+    AbstractStringPipeline outer = new StringPipelineBuilder()
+            .pipe(inner)
+            .pipe(EStringOperation.REVERSE)
+            .build();
 
-        String result = outer.apply("  HeLLo  ");
+    String result = outer.apply("  HeLLo  ");
 
-        assertEquals("olleh", result);
-    }
+    assertEquals("olleh", result);
+}
 ```
 
 ## Implementations
@@ -206,3 +206,48 @@ Speedup: 31.333333333333332 x
 ```
 
 Have fun <3
+
+-------
+EDIT:
+
+## CodePointsPipeline
+
+As a Proof-Of-Concept I have added a version of the pipeline that takes and returs a string, but uses the codePoints array internaly.
+
+The functional interface now looks like:
+
+```java
+/**
+ * Represents a single codePoint transformation step.
+ * Implementations should (ideally) be pure functions.
+ */
+@FunctionalInterface
+public interface ICodePointOperation {
+
+    /**
+     * Applies a transformation to the input array.
+     * (The input array might change in the operation.)
+     *
+     * @param input source array
+     * @return the transformed array
+     */
+    int[] apply(int[] input);
+}
+```
+
+A pipeline now looks like:
+
+```java
+AbstractCodePointPipeline simpleCodePointPipeline =
+        new CodePointPipelineBuilder()
+                .pipe(CAPITALIZE)
+                .pipe(CHOMP)
+                .build();
+
+String result = simpleCodePointPipeline.apply("this is a Simple pipeline.\r");
+
+assertInstanceOf(AbstractCodePointPipeline.class, simpleCodePointPipeline);
+assertEquals("This is a Simple pipeline.", result); // 'This' is capitalized and the '\r' is chomped.
+```
+
+I'm stil working on this :)

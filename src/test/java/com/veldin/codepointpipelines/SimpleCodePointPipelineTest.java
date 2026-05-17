@@ -19,7 +19,7 @@ class SimpleCodePointPipelineTest {
         String result = simpleCodePointPipeline.apply("this is a Simple pipeline.\r");
 
         assertInstanceOf(AbstractCodePointPipeline.class, simpleCodePointPipeline);
-        assertEquals("This is a Simple pipeline.", result); // 'This' is capitalized.
+        assertEquals("This is a Simple pipeline.", result); // 'This' is capitalized and the '\r' is chomped.
     }
 
     @Test
