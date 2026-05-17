@@ -214,7 +214,19 @@ EDIT:
 
 As a Proof-Of-Concept I have added a version of the pipeline that takes and returs a string, but uses the codePoints array internaly.
 
-The functional interface now looks like:
+```java
+String pipeline duration     : 447 ms
+Code point pipeline duration : 529 ms
+CodePoint/String ratio       : 1.1834451901565997
+```
+
+Initial benchmarks show that the code point pipeline is currently way slower. 
+This is expected and is (I think) caused by the conversion overhead between String to int[] rather than the actual 
+pipeline operations themselves. 
+
+These conversions require full decoding/encoding of the text and introduce additional allocations.
+
+For now, the functional interface now looks like:
 
 ```java
 /**
