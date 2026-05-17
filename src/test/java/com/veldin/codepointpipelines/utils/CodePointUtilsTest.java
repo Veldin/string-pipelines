@@ -31,6 +31,18 @@ class CodePointUtilsTest {
         );
     }
 
+    @Test
+    // More tests todo to make sure input/output is properly mimic.
+    void chopTest() {
+        String input = "hello world";
+        String chomp =  StringUtils.chop(input);
+
+        assertEquals(
+                chomp,
+                codePointsToString(CodePointUtils.chop(input.codePoints().toArray()))
+        );
+    }
+
     private String codePointsToString(int[] input) {
         return new String(input, 0, input.length);
     }

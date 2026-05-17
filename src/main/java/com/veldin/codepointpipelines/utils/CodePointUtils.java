@@ -58,6 +58,35 @@ public class CodePointUtils {
         return result;
     }
 
+    // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' chop.
+    public static int[] chop(int[] codePoints) {
+        if (codePoints == null) {
+            return null;
+        }
+
+        int length = codePoints.length;
+
+        if (length < 2) {
+            return new int[0];
+        }
+
+        int lastIdx = length - 1;
+        int last = codePoints[lastIdx];
+
+        // Handle \r\n first
+        if (last == '\n' && codePoints[lastIdx - 1] == '\r') {
+            int[] result = new int[lastIdx - 1];
+            System.arraycopy(codePoints, 0, result, 0, lastIdx - 1);
+            return result;
+        }
+
+        // Remove last code point
+        int[] result = new int[lastIdx];
+        System.arraycopy(codePoints, 0, result, 0, lastIdx);
+
+        return result;
+    }
+
     public static boolean isEmpty(int[] codePoints) {
         return codePoints == null || codePoints.length == 0;
     }

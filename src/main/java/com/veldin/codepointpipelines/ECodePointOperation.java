@@ -5,7 +5,8 @@ import com.veldin.codepointpipelines.utils.CodePointUtils;
 public enum ECodePointOperation implements ICodePointOperation {
 
     CAPITALIZE(CodePointUtils::capitalize),
-    CHOMP(CodePointUtils::chomp);
+    CHOMP(CodePointUtils::chomp),
+    CHOP(CodePointUtils::chop);
 
     private final ICodePointOperation operation;
 

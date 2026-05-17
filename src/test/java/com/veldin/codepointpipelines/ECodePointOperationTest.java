@@ -32,6 +32,18 @@ class ECodePointOperationTest {
         );
     }
 
+    @Test
+    @DisplayName("CHOP should behave the same as CodePointUtils.capitalize")
+    void chopShouldMatchCodePointsUtils() {
+
+        int[] input = "hello world".codePoints().toArray();
+
+        assertEquals(
+                codePointsToString(CodePointUtils.chop(input)),
+                codePointsToString(ECodePointOperation.CHOP.apply(input))
+        );
+    }
+
     private String codePointsToString(int[] input) {
         return new String(input, 0, input.length);
     }
