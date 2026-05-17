@@ -250,4 +250,4 @@ assertInstanceOf(AbstractCodePointPipeline.class, simpleCodePointPipeline);
 assertEquals("This is a Simple pipeline.", result); // 'This' is capitalized and the '\r' is chomped.
 ```
 
-I'm stil working on this :)
+I'm still working on this :)
