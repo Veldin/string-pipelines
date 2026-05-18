@@ -1,8 +1,5 @@
-package com.veldin.benchmark;
+package com.veldin.codepointpipelines;
 
-import com.veldin.codepointpipelines.AbstractCodePointPipeline;
-import com.veldin.codepointpipelines.CodePointPipelineBuilder;
-import com.veldin.codepointpipelines.ECodePointOperation;
 import com.veldin.stringpipelines.AbstractStringPipeline;
 import com.veldin.stringpipelines.EStringOperation;
 import com.veldin.stringpipelines.StringPipelineBuilder;
