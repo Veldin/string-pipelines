@@ -1,4 +1,4 @@
-package com.veldin.codepointpipelines;
+package com.veldin.stringpipelines.codepoints;
 
 import java.util.ArrayList;
 import java.util.Arrays;

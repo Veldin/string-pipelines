@@ -1,6 +1,6 @@
-package com.veldin.codepointpipelines;
+package com.veldin.stringpipelines.codepoints;
 
-import com.veldin.codepointpipelines.utils.CodePointUtils;
+import com.veldin.stringpipelines.strings.utils.CodePointUtils;
 
 public enum ECodePointOperation implements ICodePointOperation {
 

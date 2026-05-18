@@ -1,11 +1,11 @@
-package com.veldin.stringpipelines;
+package com.veldin.stringpipelines.strings;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.veldin.stringpipelines.EStringOperation.*;
-import static com.veldin.stringpipelines.EStringOperation.CAPITALIZE;
+import static com.veldin.stringpipelines.strings.EStringOperation.*;
+import static com.veldin.stringpipelines.strings.EStringOperation.CAPITALIZE;
 
 class CachedStringPipelineBenchmarkTest {
 

@@ -1,4 +1,4 @@
-package com.veldin.stringpipelines;
+package com.veldin.stringpipelines.strings;
 
 /**
  * Represents a single string transformation step.

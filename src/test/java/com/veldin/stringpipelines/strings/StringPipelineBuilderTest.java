@@ -1,4 +1,4 @@
-package com.veldin.stringpipelines;
+package com.veldin.stringpipelines.strings;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ class StringPipelineBuilderTest {
         String result = pipeline.apply("  HeLLo WoRLD  ");
 
         assertEquals("hello world", result);
-        assertTrue(pipeline instanceof SimpleStringPipeline);
+        assertInstanceOf(SimpleStringPipeline.class, pipeline);
     }
 
     @Test
@@ -32,7 +32,7 @@ class StringPipelineBuilderTest {
         String result = pipeline.apply("  hello world  ");
 
         assertEquals("HELLO WORLD", result);
-        assertTrue(pipeline instanceof CachedStringPipeline);
+        assertInstanceOf(CachedStringPipeline.class, pipeline);
     }
 
     @Test

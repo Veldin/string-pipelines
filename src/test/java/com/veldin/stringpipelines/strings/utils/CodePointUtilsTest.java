@@ -1,6 +1,6 @@
-package com.veldin.codepointpipelines.utils;
+package com.veldin.stringpipelines.strings.utils;
 
-import com.veldin.codepointpipelines.CodePointBuffer;
+import com.veldin.stringpipelines.codepoints.CodePointBuffer;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 

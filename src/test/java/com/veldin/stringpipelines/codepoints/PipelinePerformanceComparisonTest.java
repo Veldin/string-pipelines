@@ -1,8 +1,8 @@
-package com.veldin.codepointpipelines;
+package com.veldin.stringpipelines.codepoints;
 
-import com.veldin.stringpipelines.AbstractStringPipeline;
-import com.veldin.stringpipelines.EStringOperation;
-import com.veldin.stringpipelines.StringPipelineBuilder;
+import com.veldin.stringpipelines.strings.AbstractStringPipeline;
+import com.veldin.stringpipelines.strings.EStringOperation;
+import com.veldin.stringpipelines.strings.StringPipelineBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

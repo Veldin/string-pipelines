@@ -1,4 +1,4 @@
-package com.veldin.codepointpipelines;
+package com.veldin.stringpipelines.codepoints;
 
 public final class CodePointBuffer {
 

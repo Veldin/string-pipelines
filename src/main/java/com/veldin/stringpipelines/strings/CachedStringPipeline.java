@@ -1,4 +1,4 @@
-package com.veldin.stringpipelines;
+package com.veldin.stringpipelines.strings;
 
 import java.util.List;
 import java.util.Map;

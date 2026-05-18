@@ -1,4 +1,4 @@
-package com.veldin.codepointpipelines;
+package com.veldin.stringpipelines.codepoints;
 
 /**
  * Represents a single codePoint transformation step.

@@ -1,8 +1,8 @@
-package com.veldin.codepointpipelines;
+package com.veldin.stringpipelines.codepoints;
 
 import org.junit.jupiter.api.Test;
 
-import static com.veldin.codepointpipelines.ECodePointOperation.*;
+import static com.veldin.stringpipelines.codepoints.ECodePointOperation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleCodePointPipelineTest {
