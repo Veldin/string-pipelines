@@ -6,7 +6,9 @@ public enum ECodePointOperation implements ICodePointOperation {
 
     CAPITALIZE(CodePointUtils::capitalize),
     CHOMP(CodePointUtils::chomp),
-    CHOP(CodePointUtils::chop);
+    CHOP(CodePointUtils::chop),
+
+    DELETE_WHITESPACE(CodePointUtils::deleteWhitespace);
 
     private final ICodePointOperation operation;
 
@@ -15,7 +17,7 @@ public enum ECodePointOperation implements ICodePointOperation {
     }
 
     @Override
-    public int[] apply(int[] input) {
-        return operation.apply(input);
+    public void apply(CodePointBuffer buffer) {
+        operation.apply(buffer);
     }
 }

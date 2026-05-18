@@ -11,24 +11,19 @@ public abstract class AbstractCodePointPipeline implements ICodePointOperation {
     }
 
     @Override
-    public int[] apply(int[] input) {
-
-        int[] value = input;
-
+    public void apply(CodePointBuffer buffer) {
         for (ICodePointOperation op : operations) {
-            value = op.apply(value);
+            op.apply(buffer);
         }
-
-        return value;
     }
 
     public String apply(String input) {
-        int[] value = input.codePoints().toArray();
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
 
         for (ICodePointOperation op : operations) {
-            value = op.apply(value);
+            op.apply(buffer);
         }
 
-        return new String(value, 0, value.length);
+        return buffer.toString();
     }
 }

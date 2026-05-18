@@ -1,10 +1,14 @@
 package com.veldin.codepointpipelines.utils;
 
+import com.veldin.codepointpipelines.CodePointBuffer;
+
 /**
- * Utility methods operating directly on Unicode code point arrays.
+ * Utility methods operating directly on Unicode code points.
  *
- * Methods in this class may modify the provided input array in-place whenever possible, as long as the
- * returned result is behaviorally correct.
+ * <p>
+ * Methods in this class mutate the provided {@link CodePointBuffer}
+ * in-place whenever possible to minimize allocations and copying.
+ * </p>
  */
 public class CodePointUtils {
 
@@ -12,82 +16,107 @@ public class CodePointUtils {
     }
 
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' capitalize.
-    public static int[] capitalize(int[] codePoints) {
-        if (isEmpty(codePoints)) {
-            return codePoints;
+    public static void capitalize(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
         }
 
-        int firstCodePoint = codePoints[0];
+        int firstCodePoint = buffer.get(0);
         int newCodePoint = Character.toTitleCase(firstCodePoint);
 
         if (firstCodePoint != newCodePoint) {
-            codePoints[0] = newCodePoint;
+            buffer.set(0, newCodePoint);
         }
-
-        return codePoints;
     }
 
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' chomp.
-    public static int[] chomp(int[] codePoints) {
-        if (isEmpty(codePoints)) {
-            return codePoints;
+    public static void chomp(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
         }
 
-        int length = codePoints.length;
+        int length = buffer.length();
 
-        // There is only one character, check if it's a character we chomp.
+        // Single character edge case
         if (length == 1) {
-            int codePoint = codePoints[0];
-            return (codePoint == '\r' || codePoint == '\n')  ? new int[0] : codePoints;
+
+            int codePoint = buffer.get(0);
+
+            if (codePoint == '\r' || codePoint == '\n') {
+                buffer.setLength(0);
+            }
+
+            return;
         }
 
         int lastIdx = length - 1;
-        int last = codePoints[lastIdx];
+        int last = buffer.get(lastIdx);
 
         if (last == '\n') {
-            if (codePoints[lastIdx - 1] == '\r') {
-                lastIdx--;
+
+            if (buffer.get(lastIdx - 1) == '\r') {
+                buffer.setLength(length - 2);
+            } else {
+                buffer.setLength(length - 1);
             }
-        } else if (last != '\r') {
-            return codePoints;
+
+        } else if (last == '\r') {
+            buffer.setLength(length - 1);
         }
-
-        int[] result = new int[lastIdx];
-        System.arraycopy(codePoints, 0, result, 0, lastIdx);
-
-        return result;
     }
 
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' chop.
-    public static int[] chop(int[] codePoints) {
-        if (codePoints == null) {
-            return null;
+    public static void chop(CodePointBuffer buffer) {
+
+        if (buffer == null) {
+            return;
         }
 
-        int length = codePoints.length;
+        int length = buffer.length();
 
         if (length < 2) {
-            return new int[0];
+            buffer.setLength(0);
+            return;
         }
 
         int lastIdx = length - 1;
-        int last = codePoints[lastIdx];
+        int last = buffer.get(lastIdx);
 
         // Handle \r\n first
-        if (last == '\n' && codePoints[lastIdx - 1] == '\r') {
-            int[] result = new int[lastIdx - 1];
-            System.arraycopy(codePoints, 0, result, 0, lastIdx - 1);
-            return result;
+        if (last == '\n' && buffer.get(lastIdx - 1) == '\r') {
+            buffer.setLength(length - 2);
+            return;
         }
 
         // Remove last code point
-        int[] result = new int[lastIdx];
-        System.arraycopy(codePoints, 0, result, 0, lastIdx);
-
-        return result;
+        buffer.setLength(length - 1);
     }
 
-    public static boolean isEmpty(int[] codePoints) {
-        return codePoints == null || codePoints.length == 0;
+    // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' deleteWhitespace.
+    public static void deleteWhitespace(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        int write = 0;
+        int length = buffer.length();
+
+        for (int read = 0; read < length; read++) {
+
+            int cp = buffer.get(read);
+
+            if (!Character.isWhitespace(cp)) {
+                buffer.set(write++, cp);
+            }
+        }
+
+        buffer.setLength(write);
+    }
+
+    public static boolean isEmpty(CodePointBuffer buffer) {
+        return buffer == null || buffer.length() == 0;
     }
 }

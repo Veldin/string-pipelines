@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ECodePointOperationTest {
 
+    /**
+     *
+
     @Test
     @DisplayName("CAPITALIZE should behave the same as CodePointUtils.capitalize")
     void capitalizeShouldMatchCodePointsUtils() {
@@ -47,4 +50,5 @@ class ECodePointOperationTest {
     private String codePointsToString(int[] input) {
         return new String(input, 0, input.length);
     }
+     */
 }

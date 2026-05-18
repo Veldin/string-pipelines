@@ -212,19 +212,19 @@ EDIT:
 
 ## CodePointsPipeline
 
-As a Proof-Of-Concept I have added a version of the pipeline that takes and returs a string, but uses the codePoints array internaly.
+As a Proof-Of-Concept I have added a version of the pipeline that takes and returs a string, but uses the codePoints buffer internally.
 
 ```java
-String pipeline duration     : 447 ms
-Code point pipeline duration : 529 ms
-CodePoint/String ratio       : 1.1834451901565997
+String pipeline duration     : 205 ms
+Code point pipeline duration : 123 ms
+CodePoint/String ratio       : 0.6
 ```
 
-Initial benchmarks show that the code point pipeline is currently way slower. 
-This is expected and is (I think) caused by the conversion overhead between String to int[] rather than the actual 
-pipeline operations themselves. 
+The code point pipeline uses a single buffer for all commands.
 
-These conversions require full decoding/encoding of the text and introduce additional allocations.
+
+
+At the start and end a full conversions is required for decoding/encoding of the text.
 
 For now, the functional interface now looks like:
 
@@ -237,13 +237,11 @@ For now, the functional interface now looks like:
 public interface ICodePointOperation {
 
     /**
-     * Applies a transformation to the input array.
-     * (The input array might change in the operation.)
+     * Applies a transformation to the input buffer.
      *
-     * @param input source array
-     * @return the transformed array
+     * @param buffer source buffer
      */
-    int[] apply(int[] input);
+    void apply(CodePointBuffer buffer);
 }
 ```
 

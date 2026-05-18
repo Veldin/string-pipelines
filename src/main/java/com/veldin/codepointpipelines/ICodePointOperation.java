@@ -8,11 +8,9 @@ package com.veldin.codepointpipelines;
 public interface ICodePointOperation {
 
     /**
-     * Applies a transformation to the input array.
-     * (The input array might change in the operation.)
+     * Applies a transformation to the input buffer.
      *
-     * @param input source array
-     * @return the transformed array
+     * @param buffer source buffer
      */
-    int[] apply(int[] input);
+    void apply(CodePointBuffer buffer);
 }

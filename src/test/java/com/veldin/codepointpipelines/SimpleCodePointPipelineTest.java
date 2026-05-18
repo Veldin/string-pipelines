@@ -12,6 +12,7 @@ class SimpleCodePointPipelineTest {
 
         AbstractCodePointPipeline simpleCodePointPipeline =
                 new CodePointPipelineBuilder()
+                        .pipe(DELETE_WHITESPACE)
                         .pipe(CAPITALIZE)
                         .pipe(CHOMP)
                         .build();
@@ -19,7 +20,8 @@ class SimpleCodePointPipelineTest {
         String result = simpleCodePointPipeline.apply("this is a Simple pipeline.\r");
 
         assertInstanceOf(AbstractCodePointPipeline.class, simpleCodePointPipeline);
-        assertEquals("This is a Simple pipeline.", result); // 'This' is capitalized and the '\r' is chomped.
+        // 'This' is capitalized and the '\r' is chomped, and whitespace is removed.
+        assertEquals("ThisisaSimplepipeline.", result);
     }
 
     @Test

@@ -22,19 +22,7 @@ class PipelinePerformanceComparisonTest {
                         .pipe(EStringOperation.CAPITALIZE)
                         .pipe(EStringOperation.CHOMP)
                         .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.CHOP)
+                        .pipe(EStringOperation.DELETE_WHITESPACE)
                         .build();
 
         // Code point pipeline
@@ -43,19 +31,7 @@ class PipelinePerformanceComparisonTest {
                         .pipe(ECodePointOperation.CAPITALIZE)
                         .pipe(ECodePointOperation.CHOMP)
                         .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.CHOP)
+                        .pipe(ECodePointOperation.DELETE_WHITESPACE)
                         .build();
 
         // Create large test dataset

@@ -1,5 +1,6 @@
 package com.veldin.codepointpipelines.utils;
 
+import com.veldin.codepointpipelines.CodePointBuffer;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +14,12 @@ class CodePointUtilsTest {
         String input = "hello world";
         String capitalize = StringUtils.capitalize(input);
 
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.capitalize(buffer);
+
         assertEquals(
                 capitalize,
-                codePointsToString(CodePointUtils.capitalize(input.codePoints().toArray()))
+                buffer.toString()
         );
     }
 
@@ -25,9 +29,12 @@ class CodePointUtilsTest {
         String input = "hello world\r\n";
         String chomp =  StringUtils.chomp(input);
 
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.chomp(buffer);
+
         assertEquals(
                 chomp,
-                codePointsToString(CodePointUtils.chomp(input.codePoints().toArray()))
+                buffer.toString()
         );
     }
 
@@ -35,15 +42,29 @@ class CodePointUtilsTest {
     // More tests todo to make sure input/output is properly mimic.
     void chopTest() {
         String input = "hello world";
-        String chomp =  StringUtils.chop(input);
+        String chop =  StringUtils.chop(input);
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.chop(buffer);
 
         assertEquals(
-                chomp,
-                codePointsToString(CodePointUtils.chop(input.codePoints().toArray()))
+                chop,
+                buffer.toString()
         );
     }
 
-    private String codePointsToString(int[] input) {
-        return new String(input, 0, input.length);
+    @Test
+    // More tests todo to make sure input/output is properly mimic.
+    void deleteWhitespaceTest() {
+        String input = " hello wor ld ";
+        String deleteWhitespace =  StringUtils.deleteWhitespace(input);
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.deleteWhitespace(buffer);
+
+        assertEquals(
+                deleteWhitespace,
+                buffer.toString()
+        );
     }
 }
