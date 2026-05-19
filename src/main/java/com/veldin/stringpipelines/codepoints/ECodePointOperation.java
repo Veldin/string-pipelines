@@ -8,7 +8,8 @@ public enum ECodePointOperation implements ICodePointOperation {
     CHOMP(CodePointUtils::chomp),
     CHOP(CodePointUtils::chop),
 
-    DELETE_WHITESPACE(CodePointUtils::deleteWhitespace);
+    DELETE_WHITESPACE(CodePointUtils::deleteWhitespace),
+    GET_DIGITS(CodePointUtils::getDigits);
 
     private final ICodePointOperation operation;
 

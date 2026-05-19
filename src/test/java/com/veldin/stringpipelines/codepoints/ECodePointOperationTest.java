@@ -2,7 +2,8 @@ package com.veldin.stringpipelines.codepoints;
 
 class ECodePointOperationTest {
 
-    /**
+    /*
+    TODO: Test of the right methods are attached to the right enum.
      *
 
     @Test
