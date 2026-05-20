@@ -235,15 +235,10 @@ Making this a two step pipeline, where the CodePointOperations are run on the sa
     assertEquals("ThisisaSimplepipeline", result);
 ```
 
-The order in which operations are defined is extremely important to me.
-
 Even though the builder may internally collapse compatible operations into grouped pipelines, it will never reorder operations.
 
 Pipelines are always executed strictly from top to bottom, meaning every operation receives the output of the previous step.
 
 So for best performance, I would generally recommend grouping similar operation types together when defining pipelines.
-
-So for best performance, I would recommended to group similar operation types together when defining pipelines.
-
 
 I'm still working on this lib :)
