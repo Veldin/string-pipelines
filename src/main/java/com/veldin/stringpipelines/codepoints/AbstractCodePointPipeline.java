@@ -1,8 +1,11 @@
 package com.veldin.stringpipelines.codepoints;
 
+import com.veldin.stringpipelines.AbstractPipeline;
+import com.veldin.stringpipelines.ICodePointOperation;
+
 import java.util.List;
 
-public abstract class AbstractCodePointPipeline implements ICodePointOperation {
+public abstract class AbstractCodePointPipeline extends AbstractPipeline implements ICodePointOperation {
 
     protected final List<ICodePointOperation> operations;
 

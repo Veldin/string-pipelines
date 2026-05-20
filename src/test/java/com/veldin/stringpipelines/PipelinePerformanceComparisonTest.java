@@ -1,5 +1,8 @@
-package com.veldin.stringpipelines.codepoints;
+package com.veldin.stringpipelines;
 
+import com.veldin.stringpipelines.codepoints.AbstractCodePointPipeline;
+import com.veldin.stringpipelines.codepoints.CodePointPipelineBuilder;
+import com.veldin.stringpipelines.codepoints.ECodePointOperation;
 import com.veldin.stringpipelines.strings.AbstractStringPipeline;
 import com.veldin.stringpipelines.strings.EStringOperation;
 import com.veldin.stringpipelines.strings.StringPipelineBuilder;
@@ -35,7 +38,7 @@ class PipelinePerformanceComparisonTest {
         List<String> inputs = new ArrayList<>();
 
         for (int i = 0; i < 1_000_000; i++) {
-            inputs.add("   This Is Example Input Number " + i + " !!!\\r\\n");
+            inputs.add("   This Is Example Input  Number  " + i + " !!!\\r\\n");
         }
 
         // Warmup JVM

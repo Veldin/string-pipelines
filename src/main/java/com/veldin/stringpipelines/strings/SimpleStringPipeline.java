@@ -1,5 +1,7 @@
 package com.veldin.stringpipelines.strings;
 
+import com.veldin.stringpipelines.IStringOperation;
+
 import java.util.List;
 
 /**

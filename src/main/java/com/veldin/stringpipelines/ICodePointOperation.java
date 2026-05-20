@@ -1,11 +1,13 @@
-package com.veldin.stringpipelines.codepoints;
+package com.veldin.stringpipelines;
+
+import com.veldin.stringpipelines.codepoints.CodePointBuffer;
 
 /**
  * Represents a single codePoint transformation step.
  * Implementations should (ideally) be pure functions.
  */
 @FunctionalInterface
-public interface ICodePointOperation {
+public non-sealed interface ICodePointOperation extends Operation {
 
     /**
      * Applies a transformation to the input buffer.

@@ -1,4 +1,5 @@
 package com.veldin.stringpipelines.strings;
+import com.veldin.stringpipelines.IStringOperation;
 import org.apache.commons.lang3.StringUtils;
 
 /**

@@ -1,11 +1,12 @@
 package com.veldin.stringpipelines.strings;
 
+import com.veldin.stringpipelines.AbstractPipeline;
+import com.veldin.stringpipelines.OperationsPipelineBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.veldin.stringpipelines.strings.EStringOperation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleStringPipelineTest {
@@ -15,10 +16,10 @@ class SimpleStringPipelineTest {
 
         AbstractStringPipeline simpleStringPipeline =
                 new StringPipelineBuilder()
-                        .pipe(STRIP)
-                        .pipe(NORMALIZE_SPACE)
-                        .pipe(LOWER_CASE)
-                        .pipe(CAPITALIZE)
+                        .pipe(EStringOperation.STRIP)
+                        .pipe(EStringOperation.NORMALIZE_SPACE)
+                        .pipe(EStringOperation.LOWER_CASE)
+                        .pipe(EStringOperation.CAPITALIZE)
                         .build();
 
         String result = simpleStringPipeline.apply(" this is a Simple  pipeline. ");
@@ -30,10 +31,10 @@ class SimpleStringPipelineTest {
     @Test
     void createSlugExample() {
 
-        AbstractStringPipeline slugPipeline =
-                new StringPipelineBuilder()
-                        .pipe(TRIM)
-                        .pipe(LOWER_CASE)
+        AbstractPipeline slugPipeline =
+                new OperationsPipelineBuilder()
+                        .pipe(EStringOperation.TRIM)
+                        .pipe(EStringOperation.LOWER_CASE)
                         .pipe(s -> s.replaceAll("[^a-z0-9\\s-]", ""))
                         .pipe(s -> s.replaceAll("\\s+", "-"))
                         .build();
@@ -63,16 +64,16 @@ class SimpleStringPipelineTest {
                 "Jak II	2003"
         );
 
-        AbstractStringPipeline slugPipeline =
+        AbstractPipeline pipeline =
                 new StringPipelineBuilder()
-                        .pipe(TRIM)
-                        .pipe(LOWER_CASE)
+                        .pipe(EStringOperation.TRIM)
+                        .pipe(EStringOperation.LOWER_CASE)
                         .pipe(s -> s.replaceAll("\\s+", "-"))
                         .build();
 
         List<String> out = new ArrayList<>();
         for (String game : games){
-            out.add(slugPipeline.apply(game));
+            out.add(pipeline.apply(game));
         }
 
         /*
@@ -98,8 +99,8 @@ class SimpleStringPipelineTest {
 
         AbstractStringPipeline usernamePipeline =
                 new StringPipelineBuilder()
-                        .pipe(TRIM)
-                        .pipe(LOWER_CASE)
+                        .pipe(EStringOperation.TRIM)
+                        .pipe(EStringOperation.LOWER_CASE)
                         .pipe(s -> s.replaceAll("[^a-z0-9_]", ""))
                         .build();
 
@@ -112,8 +113,8 @@ class SimpleStringPipelineTest {
 
         AbstractStringPipeline searchPipeline =
                 new StringPipelineBuilder()
-                        .pipe(TRIM)
-                        .pipe(LOWER_CASE)
+                        .pipe(EStringOperation.TRIM)
+                        .pipe(EStringOperation.LOWER_CASE)
                         .pipe(s -> s.replaceAll("\\s+", " "))
                         .build();
 
@@ -126,8 +127,8 @@ class SimpleStringPipelineTest {
 
         AbstractStringPipeline filenamePipeline =
                 new StringPipelineBuilder()
-                        .pipe(TRIM)
-                        .pipe(LOWER_CASE)
+                        .pipe(EStringOperation.TRIM)
+                        .pipe(EStringOperation.LOWER_CASE)
                         .pipe(s -> s.replaceAll("[\\\\/:*?\"<>|]", ""))
                         .pipe(s -> s.replaceAll("\\s+", "-"))
                         .build();
@@ -153,8 +154,8 @@ class SimpleStringPipelineTest {
 
         StringPipelineBuilder exampleBuilder =
                 new StringPipelineBuilder()
-                        .pipe(TRIM)
-                        .pipe(LOWER_CASE);
+                        .pipe(EStringOperation.TRIM)
+                        .pipe(EStringOperation.LOWER_CASE);
 
         AbstractStringPipeline slugify =
                 new StringPipelineBuilder()

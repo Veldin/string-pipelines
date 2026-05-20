@@ -1,5 +1,7 @@
 package com.veldin.stringpipelines.codepoints;
 
+import com.veldin.stringpipelines.ICodePointOperation;
+
 import java.util.List;
 
 /**

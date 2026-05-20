@@ -1,8 +1,11 @@
 package com.veldin.stringpipelines.strings;
 
+import com.veldin.stringpipelines.AbstractPipeline;
+import com.veldin.stringpipelines.IStringOperation;
+
 import java.util.List;
 
-public abstract class AbstractStringPipeline implements IStringOperation {
+public abstract class AbstractStringPipeline extends AbstractPipeline implements IStringOperation {
 
     protected final List<IStringOperation> operations;
 

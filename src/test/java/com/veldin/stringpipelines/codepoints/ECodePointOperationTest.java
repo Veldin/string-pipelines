@@ -4,6 +4,7 @@ class ECodePointOperationTest {
 
     /*
     TODO: Test of the right methods are attached to the right enum.
+    TODO: Are we going to keep the 'combined' enum? Are we going to keep the String versions?
      *
 
     @Test

@@ -4,39 +4,50 @@ A small string utils library for Java that allows you to build reusable and test
 
 Usefull for **Sanitization, Normalization, Slug Generation, Filtering**, or any repeated operaions on strings.
 
+## Motivation
+
+I originally started building this because I noticed I kept rewriting the same kinds of string transformations over and over again (across projects). Things like sanitization, slug generation, normalization, CSV cleanup, regex replacements, etc. usually start simple, but quickly become messy and hard to reuse.
+
+The idea behind this library is to make those transformations composable, testable, and reusable, while also experimenting with ways to make them faster internally.
+
 ## What is this?
 
-The StringPipelineBuilder lets you define and compose string-processing flows in a clear, ordered way. The order in which you define operations is the order in which they are executed.
+The OperationsPipelineBuilder lets you define and compose string-processing flows in a clear, ordered way.
+
+One thing that was very important to me while designing this was that the pipeline should feel predictable. The order in which you define operations is always the order in which they are executed.
 
 Example:
 ```java
-AbstractStringPipeline pipeline = new StringPipelineBuilder()
-        .pipe(STRIP)
-        .pipe(NORMALIZE_SPACE)
-        .pipe(LOWER_CASE)
-        .pipe(CAPITALIZE)
-        .build();
+AbstractPipeline pipeline =
+        new OperationsPipelineBuilder()
+                .pipe(EStringOperation.DELETE_WHITESPACE)
+                .pipe(EStringOperation.CAPITALIZE)
+                .pipe(EStringOperation.CHOMP)
+                .build();
 ```
 
-The pipeline classes are responsible for actually processing strings.
+The build pipeline classes are responsible for actually processing strings.
 
 ```java
-    String result = simpleStringPipeline.apply(" this is a Simple  pipeline. ");
-assertEquals("This is a simple pipeline.", result);
+    String result = pipeline.apply("this is a Simple pipeline.\r");
+
+    // 'This' is capitalized and the '\r' is chomped, and whitespace is removed.
+    assertEquals("ThisisaSimplepipeline.", result);
 ```
 
 ## More examples
 
-You can easily create reusable pipelines for small tasks like generating slugs:
+You can easily create reusable pipelines for small tasks like generating slugs.
+This was one of the first practical use-cases I built it for.
 
 ```java
     @Test
 void createSlugExampleList() {
 
-    AbstractStringPipeline slugPipeline =
+    AbstractPipeline pipeline =
             new StringPipelineBuilder()
-                    .pipe(TRIM)
-                    .pipe(LOWER_CASE)
+                    .pipe(EStringOperation.TRIM)
+                    .pipe(EStringOperation.LOWER_CASE)
                     .pipe(s -> s.replaceAll("\\s+", "-"))
                     .build();
 
@@ -65,54 +76,34 @@ void createSlugExampleList() {
 This gives the following output:
 ```java
     0 = "title-released"
-        1 = "grand-theft-auto:-san-andreas-2004"
-        2 = "grand-theft-auto:-vice-city-2002"
-        3 = "tony-hawk's-pro-skater-3-2001"
-        4 = "final-fantasy-xii-2006"
-        5 = "jak-and-daxter:-the-precursor-legacy-2001"
-        6 = "ratchet-&-clank:-up-your-arsenal-2004"
-        7 = "kingdom-hearts-ii-2005"
-        8 = "bully-2006"
-        9 = "timesplitters:-future-perfect-2005"
-        10 = "jak-3-2004"
-        11 = "jak-ii-2003"
+    1 = "grand-theft-auto:-san-andreas-2004"
+    2 = "grand-theft-auto:-vice-city-2002"
+    3 = "tony-hawk's-pro-skater-3-2001"
+    4 = "final-fantasy-xii-2006"
+    5 = "jak-and-daxter:-the-precursor-legacy-2001"
+    6 = "ratchet-&-clank:-up-your-arsenal-2004"
+    7 = "kingdom-hearts-ii-2005"
+    8 = "bully-2006"
+    9 = "timesplitters:-future-perfect-2005"
+    10 = "jak-3-2004"
+    11 = "jak-ii-2003"
 ```
 
-## Functional Interface
+## Functional Interfaces
 
-I have defined the following functional interface to let anyone define a pipeline step, as long as it takes a string and returns a string.
+I defined two functional interfaces to make it easy to plug in your own pipeline steps.
+
+### IStringOperation
+
+The first takes in any function that takes a String and returns a (modified) String.
 
 ```java
-    @FunctionalInterface
+@FunctionalInterface
 public interface IStringOperation {
     String apply(String input);
 }
 ```
-
-Using org.apache.commons:commons-lang3, I created the following enum with some basic string operations.
-
-```java
-CAPITALIZE
-        CHOMP
-CHOP
-        DEFAULT_STRING
-DELETE_WHITESPACE
-        GET_DIGITS
-LOWER_CASE
-        NORMALIZE_SPACE
-REVERSE
-        STRIP
-STRIP_TO_EMPTY
-        STRIP_TO_NULL
-SWAP_CASE
-        TRIM
-TRIM_TO_EMPTY
-        TRIM_TO_NULL
-UNCAPITALIZE
-        UPPER_CASE
-```
-
-But you can use anything as long as it takes a string and returns a string, for example, we can use both "capitalize" from this library, from StringUtils, or make something yourself.
+For example:
 
 ```java
     .pipe(CAPITALIZE)                           // From this library
@@ -120,121 +111,15 @@ But you can use anything as long as it takes a string and returns a string, for 
     .pipe(string -> myOwnFunction(string))      // From yourself
 ```
 
-And of course, you can also use some regex. I think this library makes it nice to perform multiple regex actions in a row on a string.
+### ICodePointOperation
+
+The second applies a transformation to a mutable code point buffer directly.
+
+(This part started mostly as an experiment and learning project around reducing allocations and avoiding intermediate strings, thanks reddit!)
 
 ```java
-    .pipe(s -> s.replaceAll("\d+", ""))        // remove all digits.
-        .pipe(s -> s.replaceAll("\\s+", "_"))      // then replaces whitespace (groups) with underscore.
-```
-
-## Nested pipelines
-
-Because pipelines take strings and return strings, you can use pipelines inside other pipelines.
-
-```java
-    @Test
-void shouldAllowNestedPipelinesWithoutCycles() {
-
-    AbstractStringPipeline inner = new StringPipelineBuilder()
-            .pipe(EStringOperation.TRIM)
-            .pipe(EStringOperation.LOWER_CASE)
-            .build();
-
-    AbstractStringPipeline outer = new StringPipelineBuilder()
-            .pipe(inner)
-            .pipe(EStringOperation.REVERSE)
-            .build();
-
-    String result = outer.apply("  HeLLo  ");
-
-    assertEquals("olleh", result);
-}
-```
-
-## Implementations
-
-The implementations of the pipeline classes are responsible for actually processing strings.
-
-There are two implementations:
-
-
-| Pipeline  | Description |
-| ------------- | ------------- |
-| SimpleStringPipeline  | Executes operations directly.  |
-| CachedStringPipeline  | Optimizes repeating executions using Map<String, String> cache.  |
-
-Both extend AbstractStringPipeline.
-
-By default, a SimpleStringPipeline is created using the builder.
-
-```java
-AbstractStringPipeline inner = new StringPipelineBuilder()
-        .pipe(EStringOperation.TRIM)
-        .pipe(EStringOperation.LOWER_CASE)
-        .build();
-```
-
-## CachedStringPipeline
-
-Cashed() can be called to make the builder create a CashedStringPipeline instead.
-
-```java
-AbstractStringPipeline inner = new StringPipelineBuilder()
-        .cached() // <--
-        .pipe(EStringOperation.TRIM)
-        .pipe(EStringOperation.LOWER_CASE)
-        .build();
-```
-
-When using the CachedStringPipeline, the given input is checked to exist inside the its map. If it does not exist, the pipeline runs all operations, stores the result in the map, and returns it. Then next time the same input is seen, the value from the map is returned instead.
-
-Note that Caching assumes pure functions. This makes it ideal for deterministic transformations like regex-heavy pipelines.
-
-(Also Note that most 'simple' string operations are so fast, that the overhead is not worth it. But I use it for some reggex operations for creating proxy search values in a big CSV file, so then its worth it pretty quickly.)
-
-When you want to get spicy, you can use a CashedStringPipeline as a step inside a (non cashed) simpleStringPipeline to cashe certain parts of the chain.
-
-## CachedStringPipelineBenchmarkTest
-
-I've added a non-real-world scenario test where you can run some arbitrair pipeline on a repeating set and it loggs times. I reccommend playing around with the pipeline steps and the input to see if a cashed pipeline is worth for your spesific use-case.
-
-```java
-=== BENCHMARK RESULTS ===
-Simple pipeline: 94 ms
-Cached pipeline: 3 ms
-Speedup: 31.333333333333332 x
-```
-
-Have fun <3
-
--------
-EDIT:
-
-## CodePointsPipeline
-
-As a Proof-Of-Concept I have added a version of the pipeline that takes and returs a string, but uses the codePoints buffer internally.
-
-```java
-String pipeline duration     : 205 ms
-Code point pipeline duration : 123 ms
-CodePoint/String ratio       : 0.6
-```
-
-The code point pipeline uses a single buffer for all commands.
-
-
-
-At the start and end a full conversions is required for decoding/encoding of the text.
-
-For now, the functional interface now looks like:
-
-```java
-/**
- * Represents a single codePoint transformation step.
- * Implementations should (ideally) be pure functions.
- */
 @FunctionalInterface
-public interface ICodePointOperation {
+public non-sealed interface ICodePointOperation extends Operation {
 
     /**
      * Applies a transformation to the input buffer.
@@ -245,19 +130,120 @@ public interface ICodePointOperation {
 }
 ```
 
-A pipeline now looks like:
+The buffer being an int[] containing codepoints representing the String.
 
 ```java
-AbstractCodePointPipeline simpleCodePointPipeline =
-        new CodePointPipelineBuilder()
-                .pipe(CAPITALIZE)
-                .pipe(CHOMP)
+public final class CodePointBuffer {
+
+    private final int[] buffer;
+    private int length;
+
+    ...
+}
+
+```
+So unlike string operations, code point operations modify a shared internal buffer instead of constantly creating new strings.
+
+# Why Code Point Pipelines?
+
+One of the biggest things I learned while building this library was just how expensive intermediate string creation can become.
+
+For example in our slug pipeline, every step allocates a brand new String.
+
+```java
+AbstractPipeline pipeline =
+        new StringPipelineBuilder()
+                .pipe(EStringOperation.TRIM)
+                .pipe(EStringOperation.LOWER_CASE)
+                .pipe(s -> s.replaceAll("\\s+", "-"))
+                .build();
+```
+For small transformations this is usually fine. But this library is meant to take some of the cost up-front, to create a faster pipeline. And that is where Code Points come into play.
+
+CodePointPipeline avoids most intermediate string allocations by operating on a single mutable buffer internally. Multiple code point operations can execute in sequence using the same buffer.
+
+I have included operations in this library where we have a string based, and a code-point based set of 'the same' operations.
+
+With that I set up a (verry syntetic) comparison.
+
+```java
+// String pipeline
+AbstractStringPipeline stringPipeline =
+        new StringPipelineBuilder()
+                .pipe(EStringOperation.CAPITALIZE)
+                .pipe(EStringOperation.CHOMP)
+                .pipe(EStringOperation.CHOP)
+                .pipe(EStringOperation.DELETE_WHITESPACE)
                 .build();
 
-String result = simpleCodePointPipeline.apply("this is a Simple pipeline.\r");
+// Code point pipeline
+AbstractCodePointPipeline codePointPipeline =
+        new CodePointPipelineBuilder()
+                .pipe(ECodePointOperation.CAPITALIZE)
+                .pipe(ECodePointOperation.CHOMP)
+                .pipe(ECodePointOperation.CHOP)
+                .pipe(ECodePointOperation.DELETE_WHITESPACE)
+                .build();
+```
+When repeating the same transformations many thousands of times, the code point version ended up being significantly faster in this benchmark.
 
-assertInstanceOf(AbstractCodePointPipeline.class, simpleCodePointPipeline);
-assertEquals("This is a Simple pipeline.", result); // 'This' is capitalized and the '\r' is chomped.
+Though this is a very (VERY) synthetic test, it was exciting to see the idea actually work.
+
+```java
+String pipeline duration     : 296 ms
+Code point pipeline duration : 156 ms
+CodePoint/String ratio       : 0.527027027027027
 ```
 
-I'm still working on this :)
+# Combining String and CodePoint Operations
+
+One of the main goals that I want this library to deliver is the ability to make decisions about how transformations are executed internally.
+
+```java
+AbstractPipeline pipeline =
+        new OperationsPipelineBuilder()
+                // Three CodePoint operations
+                .pipe(ECodePointOperation.DELETE_WHITESPACE)
+                .pipe(ECodePointOperation.CAPITALIZE)
+                .pipe(ECodePointOperation.CHOMP)
+                // Followed by a String operation.
+                .pipe(EStringOperation.CHOP)
+                .build();
+```
+
+At first glance, this may look like a pipeline containing four independent operations, three codePoint operations, followed by a String operation.
+
+```java
+pipeline = {SimpleStringPipeline}
+    operations = {ImmutableCollections$List12}      //  size = 2
+    0 = {SimpleCodePointPipeline}                   // Contains the 3 CodePointOperations
+    1 = {SimpleStringPipeline}                      // Contains the single string Operation
+```
+Internalty we group the same type of operations together.
+
+Making this a two step pipeline, where the CodePointOperations are run on the same buffer and transformed back to a string string, then the last operation is done on the string and returned.
+
+```java
+
+    String result = pipeline.apply("this is a Simple pipeline.\r");
+
+    // Contains 'Code Point' and a 'String' operations, so this is a SimpleStringPipeline.
+    assertInstanceOf(SimpleStringPipeline.class, pipeline);
+
+    // 'This' is capitalized and the '\r' is chomped, and whitespace is removed.
+    // Then the '.' is chopped.
+    assertEquals("ThisisaSimplepipeline", result);
+```
+
+The order in which operations are defined is extremely important to me.
+
+Even though the builder may internally collapse compatible operations into grouped pipelines, it will never reorder operations.
+
+Pipelines are always executed strictly from top to bottom, meaning every operation receives the output of the previous step.
+
+So for best performance, I would generally recommend grouping similar operation types together when defining pipelines.
+
+So for best performance, I would recommended to group similar operation types together when defining pipelines.
+
+
+I'm still working on this lib :)
