@@ -15,32 +15,31 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CapitalizeTest {
+class ReverseTest {
 
     static Stream<Arguments> cases() {
         return Stream.of(
                 // Basic cases
-                Arguments.of("abc", "Abc"),
-                Arguments.of("cdc", "Cdc"),
+                Arguments.of("hello world", "dlrow olleh"),
+                Arguments.of("hello  world ", " dlrow  olleh"),         // Space at the end
+                Arguments.of("  hello  world  ", "  dlrow  olleh  "),
 
-                // Starts with a space
-                Arguments.of(" cdc", " cdc"),
+                Arguments.of("\n ", " \n"),
 
-                // Two words
-                Arguments.of("cdc cdc", "Cdc cdc"),
+                Arguments.of("🙂def", "fed🙂"),
+                Arguments.of("🙂🇳🇱", "🇱🇳🙂"),     // Flag of NL
 
-                // Starts with number or emoji
-                Arguments.of("123abc🙂DEF", "123abc🙂DEF"),
-                Arguments.of("🙂def", "🙂def")
+                // Empty
+                Arguments.of("", "")
         );
     }
 
     @ParameterizedTest
     @MethodSource("cases")
-    void capitalizeTest(String input, String expected) {
+    void reverseTest(String input, String expected) {
         CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
 
-        CodePointUtils.capitalize(buffer);
+        CodePointUtils.reverse(buffer);
 
         assertEquals(expected, buffer.toString());
     }
@@ -50,7 +49,7 @@ class CapitalizeTest {
         // Create the pipeline
         AbstractPipeline pipeline =
                 new OperationsPipelineBuilder()
-                        .pipe(ECodePointOperation.CAPITALIZE)
+                        .pipe(ECodePointOperation.REVERSE)
                         .build();
 
         // Apply the strings

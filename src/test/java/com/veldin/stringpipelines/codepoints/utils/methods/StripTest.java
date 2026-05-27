@@ -15,32 +15,35 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CapitalizeTest {
+class StripTest {
 
     static Stream<Arguments> cases() {
         return Stream.of(
                 // Basic cases
-                Arguments.of("abc", "Abc"),
-                Arguments.of("cdc", "Cdc"),
+                Arguments.of("hello  world", "hello  world"), // Double spaces in centre stay
 
-                // Starts with a space
-                Arguments.of(" cdc", " cdc"),
+                Arguments.of("hello  world ", "hello  world"), // Space at the end removed
+                Arguments.of("hello  world  ", "hello  world"), // Spaces at the end removed
 
-                // Two words
-                Arguments.of("cdc cdc", "Cdc cdc"),
+                Arguments.of(" hello  world", "hello  world"), // Single space at the begin removed
+                Arguments.of("  hello  world", "hello  world"), // Double Spaces at the begin removed
 
-                // Starts with number or emoji
-                Arguments.of("123abc🙂DEF", "123abc🙂DEF"),
-                Arguments.of("🙂def", "🙂def")
+                Arguments.of("  hello  world  ", "hello  world"), // Double Spaces in begin and end get removed
+                Arguments.of(" \n hello  world   ", "hello  world"), // \n at start and spaces end removed
+
+                Arguments.of(" \n ", ""), // Gets emptied
+
+                // Empty
+                Arguments.of("", "")
         );
     }
 
     @ParameterizedTest
     @MethodSource("cases")
-    void capitalizeTest(String input, String expected) {
+    void stripTest(String input, String expected) {
         CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
 
-        CodePointUtils.capitalize(buffer);
+        CodePointUtils.strip(buffer);
 
         assertEquals(expected, buffer.toString());
     }
@@ -50,7 +53,7 @@ class CapitalizeTest {
         // Create the pipeline
         AbstractPipeline pipeline =
                 new OperationsPipelineBuilder()
-                        .pipe(ECodePointOperation.CAPITALIZE)
+                        .pipe(ECodePointOperation.STRIP)
                         .build();
 
         // Apply the strings
