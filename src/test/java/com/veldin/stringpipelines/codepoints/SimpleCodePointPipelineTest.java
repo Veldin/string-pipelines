@@ -12,7 +12,7 @@ class SimpleCodePointPipelineTest {
 
         AbstractCodePointPipeline simpleCodePointPipeline =
                 new CodePointPipelineBuilder()
-                        .pipe(DELETE_WHITESPACE)
+                        .pipe(REMOVE_WHITESPACE)
                         .pipe(CAPITALIZE)
                         .pipe(CHOMP)
                         .build();

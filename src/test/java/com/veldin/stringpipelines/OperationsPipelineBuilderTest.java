@@ -33,7 +33,7 @@ class OperationsPipelineBuilderTest {
 
         AbstractPipeline pipeline =
                 new OperationsPipelineBuilder()
-                        .pipe(ECodePointOperation.DELETE_WHITESPACE)
+                        .pipe(ECodePointOperation.REMOVE_WHITESPACE)
                         .pipe(ECodePointOperation.CAPITALIZE)
                         .pipe(ECodePointOperation.CHOMP)
                         .build();
@@ -53,7 +53,7 @@ class OperationsPipelineBuilderTest {
         AbstractPipeline pipeline =
                 new OperationsPipelineBuilder()
                         // Three CodePoint operations
-                        .pipe(ECodePointOperation.DELETE_WHITESPACE)
+                        .pipe(ECodePointOperation.REMOVE_WHITESPACE)
                         .pipe(ECodePointOperation.CAPITALIZE)
                         .pipe(ECodePointOperation.CHOMP)
                         // Followed by a String operation.

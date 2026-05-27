@@ -22,12 +22,12 @@ public enum EOperation implements ICodePointOperation, IStringOperation, Operati
     ),
 
     DELETE_WHITESPACE(
-            ECodePointOperation.DELETE_WHITESPACE,
+            ECodePointOperation.REMOVE_WHITESPACE,
             EStringOperation.DELETE_WHITESPACE
     ),
 
     GET_DIGITS(
-            ECodePointOperation.GET_DIGITS,
+            ECodePointOperation.KEEP_DIGITS,
             EStringOperation.GET_DIGITS
     ),
 

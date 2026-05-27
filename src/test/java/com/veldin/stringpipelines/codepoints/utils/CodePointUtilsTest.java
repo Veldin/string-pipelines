@@ -1,10 +1,10 @@
-package com.veldin.stringpipelines.strings.utils;
+package com.veldin.stringpipelines.codepoints.utils;
 
 import com.veldin.stringpipelines.codepoints.CodePointBuffer;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CodePointUtilsTest {
 
@@ -66,5 +66,37 @@ class CodePointUtilsTest {
                 deleteWhitespace,
                 buffer.toString()
         );
+    }
+
+    @Test
+    void removeWhitespaceTest() {
+        String input = "123abc123";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeDigits(buffer);
+
+        String output = buffer.toString();
+
+        // Ensure no digit remains
+        for (int i = 0; i < output.length(); i++) {
+            char ch = output.charAt(i);
+            assertFalse(Character.isDigit(ch));
+        }
+    }
+
+    @Test
+    void keepWhitespaceTest() {
+        String input = "123abc123";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.keepDigits(buffer);
+
+        String output = buffer.toString();
+
+        // Ensure no digit remains
+        for (int i = 0; i < output.length(); i++) {
+            char ch = output.charAt(i);
+            assertTrue(Character.isDigit(ch));
+        }
     }
 }

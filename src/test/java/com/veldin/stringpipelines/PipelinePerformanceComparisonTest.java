@@ -31,7 +31,7 @@ class PipelinePerformanceComparisonTest {
                         .pipe(ECodePointOperation.CAPITALIZE)
                         .pipe(ECodePointOperation.CHOMP)
                         .pipe(ECodePointOperation.CHOP)
-                        .pipe(ECodePointOperation.DELETE_WHITESPACE)
+                        .pipe(ECodePointOperation.REMOVE_WHITESPACE)
                         .build();
 
         // Create large test dataset
