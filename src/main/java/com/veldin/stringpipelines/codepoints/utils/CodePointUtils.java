@@ -115,28 +115,6 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' getDigits.
-    public static void getDigits(CodePointBuffer buffer) {
-
-        if (isEmpty(buffer)) {
-            return;
-        }
-
-        int write = 0;
-        int length = buffer.length();
-
-        for (int read = 0; read < length; read++) {
-
-            int codePoint = buffer.get(read);
-
-            if (Character.isDigit(codePoint)) {
-                buffer.set(write++, codePoint);
-            }
-        }
-
-        buffer.setLength(write);
-    }
-
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' lowerCase.
     // TODO: locale-sensitive and multi-character transformations are not handled, handle them.
     public static void lowerCase(CodePointBuffer buffer) {
@@ -272,6 +250,108 @@ public class CodePointUtils {
         if (firstCodePoint != newCodePoint) {
             buffer.set(0, newCodePoint);
         }
+    }
+
+    public static void toggleCase(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        int length = buffer.length();
+
+        for (int i = 0; i < length; i++) {
+
+            int codePoint = buffer.get(i);
+
+            if (Character.isUpperCase(codePoint)) {
+                buffer.set(i, Character.toLowerCase(codePoint));
+            } else if (Character.isLowerCase(codePoint)) {
+                buffer.set(i, Character.toUpperCase(codePoint));
+            }
+        }
+    }
+
+    // a left rotation of the buffer contents.
+    public static void rotateLeft(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer) || buffer.length() < 2) {
+            return;
+        }
+
+        int length = buffer.length();
+        int first = buffer.get(0);
+
+        for (int i = 1; i < length; i++) {
+            buffer.set(i - 1, buffer.get(i));
+        }
+
+        buffer.set(length - 1, first);
+    }
+
+    // a left rotation of the buffer contents.
+    public static void rotateRight(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer) || buffer.length() < 2) {
+            return;
+        }
+
+        int length = buffer.length();
+        int last = buffer.get(length - 1);
+
+        for (int i = length - 1; i > 0; i--) {
+            buffer.set(i, buffer.get(i - 1));
+        }
+
+        buffer.set(0, last);
+    }
+
+    // Increment every code point by 1
+    public static void increment(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        for (int i = 0; i < buffer.length(); i++) {
+            buffer.set(i, buffer.get(i) + 1);
+        }
+    }
+
+    // Decrement every code point by 1
+    public static void decrement(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        for (int i = 0; i < buffer.length(); i++) {
+            buffer.set(i, buffer.get(i) - 1);
+        }
+    }
+
+    public static void removeFirst(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        int length = buffer.length();
+
+        for (int i = 1; i < length; i++) {
+            buffer.set(i - 1, buffer.get(i));
+        }
+
+        buffer.setLength(length - 1);
+    }
+
+    public static void removeLast(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        buffer.setLength(buffer.length() - 1);
     }
 
     public static void removeValidCodePoints(CodePointBuffer buffer) {

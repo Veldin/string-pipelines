@@ -13,18 +13,41 @@ public enum ECodePointOperation implements ICodePointOperation {
     REVERSE(CodePointUtils::reverse),
     STRIP(CodePointUtils::strip),
 
-    // ToggleCase
+    UNCAPITALIZE(CodePointUtils::uncapitalize),
+    TOGGLE_CASE(CodePointUtils::toggleCase),
 
-    // RotateLeft
-    // RotateRight
-    // Increment
-    // Decrement
+    ROTATE_LEFT(CodePointUtils::rotateLeft),
+    ROTATE_RIGHT(CodePointUtils::rotateRight),
+    INCREMENT(CodePointUtils::increment),
+    DECREMENT(CodePointUtils::decrement),
+
+    REMOVE_LAST(CodePointUtils::removeLast),
+    REMOVE_FIRST(CodePointUtils::removeFirst),
 
     //isBase64Characters
+    // Too and From base64
+
+    //KeepGuidCharacters
+    //KeepBase64Characters
+
+    // SortCharacters
+
+    // Resize (Set buffer to a specific size, fill it. (Whitespace? Underscore?)
+
+    // emojis to text (aka) 🔥 to :fire: (and back)
 
     //Keep/Remove htmlEntities / xmlEntities
 
+    // SPLIT PREPENT or /we on https://www.compart.com/en/unicode/U+001F
+    // Or should we instead of a unicode character, use _ as a 'replacement' character?
+
     // Character based filters
+
+    // KEEP [XXX] PREFIX // REMOVE [XXX] PREFIX
+    // KEEP ALPHANUMERIC PREFIX
+    // KEEP DIGIT PREFIX
+
+    // Character.getType(cp) types
 
     REMOVE_VALID_CODE_POINTS(CodePointUtils::removeValidCodePoints),
     KEEP_VALID_CODE_POINTS(CodePointUtils::keepValidCodePoints),
