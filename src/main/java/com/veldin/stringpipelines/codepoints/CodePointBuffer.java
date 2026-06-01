@@ -1,8 +1,10 @@
 package com.veldin.stringpipelines.codepoints;
 
+import java.util.Arrays;
+
 public final class CodePointBuffer {
 
-    private final int[] buffer;
+    private int[] buffer;
     private int length;
 
     public CodePointBuffer(int[] buffer) {
@@ -22,8 +24,24 @@ public final class CodePointBuffer {
         return length;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setLength(int newLength) {
+
+        if (newLength < 0) {
+            throw new IllegalArgumentException("length < 0");
+        }
+
+        ensureCapacity(newLength);
+        length = newLength;
+    }
+
+    public void ensureCapacity(int capacity) {
+
+        if (capacity <= buffer.length) {
+            return;
+        }
+
+        int newCapacity = Math.max(capacity, buffer.length * 2 + 1);
+        buffer = Arrays.copyOf(buffer, newCapacity);
     }
 
     @Override

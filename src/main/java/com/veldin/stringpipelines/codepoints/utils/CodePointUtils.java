@@ -2,6 +2,8 @@ package com.veldin.stringpipelines.codepoints.utils;
 
 import com.veldin.stringpipelines.codepoints.CodePointBuffer;
 
+import java.util.Base64;
+
 /**
  * Utility methods operating directly on Unicode code points.
  *
@@ -352,6 +354,124 @@ public class CodePointUtils {
         }
 
         buffer.setLength(buffer.length() - 1);
+    }
+
+    public static void toBase64(CodePointBuffer buffer) {
+
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        int length = buffer.length();
+
+        // Worst-case UTF-8 size is 4 bytes per code point.
+        byte[] utf8 = new byte[length * 4];
+        int bytePos = 0;
+
+        for (int i = 0; i < length; i++) {
+
+            int cp = buffer.get(i);
+
+            if (cp <= 0x7F) {
+                utf8[bytePos++] = (byte) cp;
+
+            } else if (cp <= 0x7FF) {
+                utf8[bytePos++] = (byte) (0xC0 | (cp >>> 6));
+                utf8[bytePos++] = (byte) (0x80 | (cp & 0x3F));
+
+            } else if (cp <= 0xFFFF) {
+                utf8[bytePos++] = (byte) (0xE0 | (cp >>> 12));
+                utf8[bytePos++] = (byte) (0x80 | ((cp >>> 6) & 0x3F));
+                utf8[bytePos++] = (byte) (0x80 | (cp & 0x3F));
+
+            } else {
+                utf8[bytePos++] = (byte) (0xF0 | (cp >>> 18));
+                utf8[bytePos++] = (byte) (0x80 | ((cp >>> 12) & 0x3F));
+                utf8[bytePos++] = (byte) (0x80 | ((cp >>> 6) & 0x3F));
+                utf8[bytePos++] = (byte) (0x80 | (cp & 0x3F));
+            }
+        }
+
+        byte[] encoded = Base64.getEncoder().encode(
+                java.util.Arrays.copyOf(utf8, bytePos));
+
+        buffer.setLength(encoded.length);
+
+        for (int i = 0; i < encoded.length; i++) {
+            buffer.set(i, encoded[i] & 0xFF);
+        }
+    }
+
+    public static void fromBase64(CodePointBuffer buffer) {
+        if (isEmpty(buffer)) {
+            return;
+        }
+
+        int length = buffer.length();
+
+        // Base64 text is ASCII, one code point -> one byte.
+        byte[] base64 = new byte[length];
+
+        for (int i = 0; i < length; i++) {
+            base64[i] = (byte) buffer.get(i);
+        }
+
+        byte[] utf8 = Base64.getDecoder().decode(base64);
+
+        int write = 0;
+        int i = 0;
+
+        while (i < utf8.length) {
+
+            int b0 = utf8[i] & 0xFF;
+
+            if (b0 < 0x80) {
+
+                buffer.set(write++, b0);
+                i++;
+
+            } else if ((b0 & 0xE0) == 0xC0) {
+
+                int b1 = utf8[i + 1] & 0x3F;
+
+                int cp =
+                        ((b0 & 0x1F) << 6)
+                                | b1;
+
+                buffer.set(write++, cp);
+                i += 2;
+
+            } else if ((b0 & 0xF0) == 0xE0) {
+
+                int b1 = utf8[i + 1] & 0x3F;
+                int b2 = utf8[i + 2] & 0x3F;
+
+                int cp =
+                        ((b0 & 0x0F) << 12)
+                                | (b1 << 6)
+                                | b2;
+
+                buffer.set(write++, cp);
+                i += 3;
+
+            } else {
+
+                int b1 = utf8[i + 1] & 0x3F;
+                int b2 = utf8[i + 2] & 0x3F;
+                int b3 = utf8[i + 3] & 0x3F;
+
+                int cp =
+                        ((b0 & 0x07) << 18)
+                                | (b1 << 12)
+                                | (b2 << 6)
+                                | b3;
+
+                buffer.set(write++, cp);
+                i += 4;
+            }
+        }
+
+        buffer.setLength(write);
     }
 
     public static void removeValidCodePoints(CodePointBuffer buffer) {

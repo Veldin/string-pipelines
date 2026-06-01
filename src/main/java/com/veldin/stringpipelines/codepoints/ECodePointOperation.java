@@ -24,6 +24,9 @@ public enum ECodePointOperation implements ICodePointOperation {
     REMOVE_LAST(CodePointUtils::removeLast),
     REMOVE_FIRST(CodePointUtils::removeFirst),
 
+    TO_BASE64(CodePointUtils::toBase64),
+    FROM_BASE64(CodePointUtils::fromBase64),
+
     //isBase64Characters
     // Too and From base64
 
