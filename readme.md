@@ -10,6 +10,18 @@ I originally started building this because I noticed I kept rewriting the same k
 
 The idea behind this library is to make those transformations composable, testable, and reusable, while also experimenting with ways to make them faster internally.
 
+## Maven Central Repository
+
+Get this as a dependency via the Maven Central Repository.
+
+```java
+<dependency>
+    <groupId>com.veldin</groupId>
+    <artifactId>string-pipelines</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
 ## What is this?
 
 The OperationsPipelineBuilder lets you define and compose string-processing flows in a clear, ordered way.
