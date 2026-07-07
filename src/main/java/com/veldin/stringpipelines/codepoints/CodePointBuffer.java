@@ -44,6 +44,10 @@ public final class CodePointBuffer {
         buffer = Arrays.copyOf(buffer, newCapacity);
     }
 
+    public boolean isEmpty(){
+        return length < 1;
+    }
+
     @Override
     public String toString() {
         return new String(buffer, 0, length);

@@ -20,7 +20,7 @@ public class CodePointUtils {
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' capitalize.
     public static void capitalize(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -35,7 +35,7 @@ public class CodePointUtils {
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' chomp.
     public static void chomp(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -98,7 +98,7 @@ public class CodePointUtils {
 
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' deleteWhitespace.
     public static void deleteWhitespace(CodePointBuffer buffer) {
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -121,7 +121,7 @@ public class CodePointUtils {
     // TODO: locale-sensitive and multi-character transformations are not handled, handle them.
     public static void lowerCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -141,7 +141,7 @@ public class CodePointUtils {
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' normalizeSpace.
     public static void normalizeSpace(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -180,7 +180,7 @@ public class CodePointUtils {
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' reverse.
     public static void reverse(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -202,7 +202,7 @@ public class CodePointUtils {
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' strip.
     public static void strip(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -242,7 +242,7 @@ public class CodePointUtils {
     // Implementation tries to mimic 'org.apache.commons.lang3.StringUtils' uncapitalize.
     public static void uncapitalize(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -256,7 +256,7 @@ public class CodePointUtils {
 
     public static void toggleCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -277,7 +277,7 @@ public class CodePointUtils {
     // a left rotation of the buffer contents.
     public static void rotateLeft(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer) || buffer.length() < 2) {
+        if (buffer == null || buffer.length() < 2) {
             return;
         }
 
@@ -294,7 +294,7 @@ public class CodePointUtils {
     // a left rotation of the buffer contents.
     public static void rotateRight(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer) || buffer.length() < 2) {
+        if (buffer == null || buffer.length() < 2) {
             return;
         }
 
@@ -311,7 +311,7 @@ public class CodePointUtils {
     // Increment every code point by 1
     public static void increment(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -323,7 +323,7 @@ public class CodePointUtils {
     // Decrement every code point by 1
     public static void decrement(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -334,7 +334,7 @@ public class CodePointUtils {
 
     public static void removeFirst(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -349,7 +349,7 @@ public class CodePointUtils {
 
     public static void removeLast(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -358,7 +358,7 @@ public class CodePointUtils {
 
     public static void toBase64(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -403,7 +403,7 @@ public class CodePointUtils {
     }
 
     public static void fromBase64(CodePointBuffer buffer) {
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -474,9 +474,183 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void toXmlEntities(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int originalLength = buffer.length();
+
+        int extra = 0;
+
+        for (int i = 0; i < originalLength; i++) {
+
+            switch (buffer.get(i)) {
+                case '&':
+                    extra += 4; // & -> &amp;
+                    break;
+
+                case '<':
+                case '>':
+                    extra += 3; // &lt; &gt;
+                    break;
+
+                case '"':
+                case '\'':
+                    extra += 5; // &quot; &apos;
+                    break;
+            }
+        }
+
+        if (extra == 0) {
+            return;
+        }
+
+        int newLength = originalLength + extra;
+
+        buffer.setLength(newLength);
+
+        int write = newLength - 1;
+
+        for (int read = originalLength - 1; read >= 0; read--) {
+
+            int cp = buffer.get(read);
+
+            switch (cp) {
+
+                case '&':
+                    buffer.set(write--, ';');
+                    buffer.set(write--, 'p');
+                    buffer.set(write--, 'm');
+                    buffer.set(write--, 'a');
+                    buffer.set(write--, '&');
+                    break;
+
+                case '<':
+                    buffer.set(write--, ';');
+                    buffer.set(write--, 't');
+                    buffer.set(write--, 'l');
+                    buffer.set(write--, '&');
+                    break;
+
+                case '>':
+                    buffer.set(write--, ';');
+                    buffer.set(write--, 't');
+                    buffer.set(write--, 'g');
+                    buffer.set(write--, '&');
+                    break;
+
+                case '"':
+                    buffer.set(write--, ';');
+                    buffer.set(write--, 't');
+                    buffer.set(write--, 'o');
+                    buffer.set(write--, 'u');
+                    buffer.set(write--, 'q');
+                    buffer.set(write--, '&');
+                    break;
+
+                case '\'':
+                    buffer.set(write--, ';');
+                    buffer.set(write--, 's');
+                    buffer.set(write--, 'o');
+                    buffer.set(write--, 'p');
+                    buffer.set(write--, 'a');
+                    buffer.set(write--, '&');
+                    break;
+
+                default:
+                    buffer.set(write--, cp);
+            }
+        }
+    }
+
+    public static void fromXmlEntities(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+
+        int read = 0;
+        int write = 0;
+
+        while (read < length) {
+
+            if (buffer.get(read) != '&') {
+                buffer.set(write++, buffer.get(read++));
+                continue;
+            }
+
+            // if is AMP
+            if (read + 5 <= length
+                    && buffer.get(read) == '&'
+                    && buffer.get(read + 1) == 'a'
+                    && buffer.get(read + 2) == 'm'
+                    && buffer.get(read + 3) == 'p'
+                    && buffer.get(read + 4) == ';'
+            ) {
+                buffer.set(write++, '&');
+                read += 5;
+
+            // if is Lt
+            } else if (read + 4 <= length
+                    && buffer.get(read) == '&'
+                    && buffer.get(read + 1) == 'l'
+                    && buffer.get(read + 2) == 't'
+                    && buffer.get(read + 3) == ';'
+            ) {
+                buffer.set(write++, '<');
+                read += 4;
+
+            // if is Gt
+            } else if (read + 4 <= length
+                    && buffer.get(read) == '&'
+                    && buffer.get(read + 1) == 'g'
+                    && buffer.get(read + 2) == 't'
+                    && buffer.get(read + 3) == ';'
+            ) {
+                buffer.set(write++, '>');
+                read += 4;
+
+            // if is Quot
+            } else if ( read + 6 <= length
+                    && buffer.get(read) == '&'
+                    && buffer.get(read + 1) == 'q'
+                    && buffer.get(read + 2) == 'u'
+                    && buffer.get(read + 3) == 'o'
+                    && buffer.get(read + 4) == 't'
+                    && buffer.get(read + 5) == ';'
+            ) {
+                buffer.set(write++, '"');
+                read += 6;
+
+            // if is Aphos
+            } else if (read + 6 <= length
+                    && buffer.get(read) == '&'
+                    && buffer.get(read + 1) == 'a'
+                    && buffer.get(read + 2) == 'p'
+                    && buffer.get(read + 3) == 'o'
+                    && buffer.get(read + 4) == 's'
+                    && buffer.get(read + 5) == ';'
+            ) {
+                buffer.set(write++, '\'');
+                read += 6;
+
+            } else {
+                // Unknown entity: keep the '&' and continue.
+                buffer.set(write++, '&');
+                read++;
+            }
+        }
+
+        buffer.setLength(write);
+    }
+
     public static void removeValidCodePoints(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -497,7 +671,7 @@ public class CodePointUtils {
 
     public static void keepValidCodePoints(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -518,7 +692,7 @@ public class CodePointUtils {
 
     public static void removeBmpCodePoints(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -539,7 +713,7 @@ public class CodePointUtils {
 
     public static void keepBmpCodePoints(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -560,7 +734,7 @@ public class CodePointUtils {
 
     public static void removeSupplementaryCodePoints(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -581,7 +755,7 @@ public class CodePointUtils {
 
     public static void keepSupplementaryCodePoints(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -602,7 +776,7 @@ public class CodePointUtils {
 
     public static void removeLowerCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -623,7 +797,7 @@ public class CodePointUtils {
 
     public static void keepLowerCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -644,7 +818,7 @@ public class CodePointUtils {
 
     public static void removeUpperCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -665,7 +839,7 @@ public class CodePointUtils {
 
     public static void keepUpperCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -686,7 +860,7 @@ public class CodePointUtils {
 
     public static void removeTitleCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -707,7 +881,7 @@ public class CodePointUtils {
 
     public static void keepTitleCase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -728,7 +902,7 @@ public class CodePointUtils {
 
     public static void removeDigits(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -749,7 +923,7 @@ public class CodePointUtils {
 
     public static void keepDigits(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -770,7 +944,7 @@ public class CodePointUtils {
 
     public static void removeDefined(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -791,7 +965,7 @@ public class CodePointUtils {
 
     public static void keepDefined(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -812,7 +986,7 @@ public class CodePointUtils {
 
     public static void removeLetters(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -833,7 +1007,7 @@ public class CodePointUtils {
 
     public static void keepLetters(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -854,7 +1028,7 @@ public class CodePointUtils {
 
     public static void removeLetterOrDigits(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -875,7 +1049,7 @@ public class CodePointUtils {
 
     public static void keepLetterOrDigits(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -896,7 +1070,7 @@ public class CodePointUtils {
 
     public static void removeAlphabetic(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -917,7 +1091,7 @@ public class CodePointUtils {
 
     public static void keepAlphabetic(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -938,7 +1112,7 @@ public class CodePointUtils {
 
     public static void removeIdeographics(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -959,7 +1133,7 @@ public class CodePointUtils {
 
     public static void keepIdeographics(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -980,7 +1154,7 @@ public class CodePointUtils {
 
     public static void removeJavaIdentifierStart(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1001,7 +1175,7 @@ public class CodePointUtils {
 
     public static void keepJavaIdentifierStart(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1022,7 +1196,7 @@ public class CodePointUtils {
 
     public static void removeUnicodeIdentifierStart(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1043,7 +1217,7 @@ public class CodePointUtils {
 
     public static void keepUnicodeIdentifierStart(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1064,7 +1238,7 @@ public class CodePointUtils {
 
     public static void removeIdentifierIgnorable(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1085,7 +1259,7 @@ public class CodePointUtils {
 
     public static void keepIdentifierIgnorable(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1106,7 +1280,7 @@ public class CodePointUtils {
 
     public static void removeEmojis(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1127,7 +1301,7 @@ public class CodePointUtils {
 
     public static void keepEmojis(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1148,7 +1322,7 @@ public class CodePointUtils {
 
     public static void removeEmojiPresentation(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1169,7 +1343,7 @@ public class CodePointUtils {
 
     public static void keepEmojiPresentation(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1190,7 +1364,7 @@ public class CodePointUtils {
 
     public static void removeEmojiModifiers(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1211,7 +1385,7 @@ public class CodePointUtils {
 
     public static void keepEmojiModifiers(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1232,7 +1406,7 @@ public class CodePointUtils {
 
     public static void removeEmojiModifierBase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1253,7 +1427,7 @@ public class CodePointUtils {
 
     public static void keepEmojiModifierBase(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1274,7 +1448,7 @@ public class CodePointUtils {
 
     public static void removeEmojiComponents(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1295,7 +1469,7 @@ public class CodePointUtils {
 
     public static void keepEmojiComponents(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1316,7 +1490,7 @@ public class CodePointUtils {
 
     public static void removeExtendedPictographic(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1337,7 +1511,7 @@ public class CodePointUtils {
 
     public static void keepExtendedPictographic(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1358,7 +1532,7 @@ public class CodePointUtils {
 
     public static void removeWhitespace(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1379,7 +1553,7 @@ public class CodePointUtils {
 
     public static void keepWhitespace(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1400,7 +1574,7 @@ public class CodePointUtils {
 
     public static void removeSpaceChars(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1421,7 +1595,7 @@ public class CodePointUtils {
 
     public static void keepSpaceChars(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1442,7 +1616,7 @@ public class CodePointUtils {
 
     public static void removeISOControls(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1463,7 +1637,7 @@ public class CodePointUtils {
 
     public static void keepISOControls(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1484,7 +1658,7 @@ public class CodePointUtils {
 
     public static void removeMirrored(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1505,7 +1679,7 @@ public class CodePointUtils {
 
     public static void keepMirrored(CodePointBuffer buffer) {
 
-        if (isEmpty(buffer)) {
+        if (buffer == null || buffer.isEmpty()) {
             return;
         }
 
@@ -1523,8 +1697,5 @@ public class CodePointUtils {
 
         buffer.setLength(write);
     }
-
-    public static boolean isEmpty(CodePointBuffer buffer) {
-        return buffer == null || buffer.length() == 0;
-    }
+    
 }

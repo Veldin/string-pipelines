@@ -27,11 +27,8 @@ public enum ECodePointOperation implements ICodePointOperation {
     TO_BASE64(CodePointUtils::toBase64),
     FROM_BASE64(CodePointUtils::fromBase64),
 
-    //isBase64Characters
-    // Too and From base64
-
-    //KeepGuidCharacters
-    //KeepBase64Characters
+    TO_XML_ENTITIES(CodePointUtils::toXmlEntities),
+    FROM_XML_ENTITIES(CodePointUtils::fromXmlEntities),
 
     // SortCharacters
 
