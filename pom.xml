@@ -6,7 +6,7 @@
 
     <groupId>com.veldin</groupId>
     <artifactId>string-pipelines</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <packaging>jar</packaging>
 
     <name>String Pipelines</name>
