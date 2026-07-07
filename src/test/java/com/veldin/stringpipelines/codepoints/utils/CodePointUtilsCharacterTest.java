@@ -42,6 +42,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeValidCodePointsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeValidCodePointsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isValidCodePoint(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepValidCodePointsPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -94,6 +122,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isBmpCodePoint(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeBmpCodePointsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeBmpCodePointsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isBmpCodePoint(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -152,6 +208,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeSupplementaryCodePointsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeSupplementaryCodePointsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isSupplementaryCodePoint(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepSupplementaryCodePointsPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -204,6 +288,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isLowerCase(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeLowerCasePrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeLowerCasePrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isLowerCase(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -262,6 +374,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeUpperCasePrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeUpperCasePrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isUpperCase(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepUpperCasePrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -314,6 +454,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isTitleCase(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeTitleCasePrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeTitleCasePrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isTitleCase(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -372,6 +540,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeDigitsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeDigitsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isDigit(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepDigitsPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -424,6 +620,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isDefined(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeDefinedPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeDefinedPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isDefined(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -482,6 +706,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeLettersPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeLettersPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isLetter(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepLettersPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -534,6 +786,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isLetterOrDigit(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeLetterOrDigitsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeLetterOrDigitsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isLetterOrDigit(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -592,6 +872,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeAlphabeticPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeAlphabeticPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isAlphabetic(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepAlphabeticPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -644,6 +952,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isIdeographic(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeIdeographicsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeIdeographicsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isIdeographic(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -702,6 +1038,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeJavaIdentifierStartPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeJavaIdentifierStartPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isJavaIdentifierStart(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepJavaIdentifierStartPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -754,6 +1118,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isUnicodeIdentifierStart(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeUnicodeIdentifierStartPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeUnicodeIdentifierStartPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isUnicodeIdentifierStart(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -812,6 +1204,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeIdentifierIgnorablePrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeIdentifierIgnorablePrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isIdentifierIgnorable(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepIdentifierIgnorablePrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -864,6 +1284,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isEmoji(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeEmojisPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeEmojisPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isEmoji(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -922,6 +1370,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeEmojiPresentationPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeEmojiPresentationPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isEmojiPresentation(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepEmojiPresentationPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -974,6 +1450,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isEmojiModifier(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeEmojiModifiersPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeEmojiModifiersPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isEmojiModifier(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -1032,6 +1536,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeEmojiModifierBasePrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeEmojiModifierBasePrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isEmojiModifierBase(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepEmojiModifierBasePrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -1084,6 +1616,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isEmojiComponent(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeEmojiComponentsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeEmojiComponentsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isEmojiComponent(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -1142,6 +1702,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeExtendedPictographicPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeExtendedPictographicPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isExtendedPictographic(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepExtendedPictographicPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -1194,6 +1782,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isWhitespace(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeWhitespacePrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeWhitespacePrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isWhitespace(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test
@@ -1252,6 +1868,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeSpaceCharsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeSpaceCharsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isSpaceChar(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepSpaceCharsPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -1307,6 +1951,34 @@ public final class CodePointUtilsCharacterTest {
     }
 
     @Test
+    void removeISOControlsPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeISOControlsPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isISOControl(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
+    }
+
+    @Test
     void keepISOControlsPrefixTest() {
         String input = "abc123🙂DEF";
 
@@ -1359,6 +2031,34 @@ public final class CodePointUtilsCharacterTest {
             assertTrue(Character.isMirrored(codePoint), "Value was " + output);
             i += Character.charCount(codePoint);
         }
+    }
+
+    @Test
+    void removeMirroredPrefixTest() {
+        String input = "abc123🙂DEF";
+
+        CodePointBuffer buffer = new CodePointBuffer(input.codePoints().toArray());
+        CodePointUtils.removeMirroredPrefix(buffer);
+
+        String output = buffer.toString();
+
+        int prefixLength = 0;
+        while (prefixLength < input.length()) {
+
+            int codePoint = input.codePointAt(prefixLength);
+
+            if (!Character.isMirrored(codePoint)) {
+                break;
+            }
+
+            prefixLength += Character.charCount(codePoint);
+        }
+
+        String expected = input.substring(prefixLength);
+
+        assertEquals(expected, output);
+
+        assertEquals(output.codePointCount(0, output.length()), buffer.length());
     }
 
     @Test

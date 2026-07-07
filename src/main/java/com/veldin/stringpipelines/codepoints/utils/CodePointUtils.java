@@ -690,6 +690,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeValidCodePointsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isValidCodePoint(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepValidCodePointsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -753,6 +787,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeBmpCodePointsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isBmpCodePoint(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepBmpCodePointsPrefix(CodePointBuffer buffer) {
@@ -820,6 +888,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeSupplementaryCodePointsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isSupplementaryCodePoint(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepSupplementaryCodePointsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -883,6 +985,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeLowerCasePrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isLowerCase(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepLowerCasePrefix(CodePointBuffer buffer) {
@@ -950,6 +1086,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeUpperCasePrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isUpperCase(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepUpperCasePrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1013,6 +1183,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeTitleCasePrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isTitleCase(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepTitleCasePrefix(CodePointBuffer buffer) {
@@ -1080,6 +1284,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeDigitsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isDigit(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepDigitsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1143,6 +1381,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeDefinedPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isDefined(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepDefinedPrefix(CodePointBuffer buffer) {
@@ -1210,6 +1482,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeLettersPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isLetter(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepLettersPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1273,6 +1579,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeLetterOrDigitsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isLetterOrDigit(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepLetterOrDigitsPrefix(CodePointBuffer buffer) {
@@ -1340,6 +1680,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeAlphabeticPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isAlphabetic(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepAlphabeticPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1403,6 +1777,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeIdeographicsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isIdeographic(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepIdeographicsPrefix(CodePointBuffer buffer) {
@@ -1470,6 +1878,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeJavaIdentifierStartPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isJavaIdentifierStart(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepJavaIdentifierStartPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1533,6 +1975,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeUnicodeIdentifierStartPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isUnicodeIdentifierStart(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepUnicodeIdentifierStartPrefix(CodePointBuffer buffer) {
@@ -1600,6 +2076,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeIdentifierIgnorablePrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isIdentifierIgnorable(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepIdentifierIgnorablePrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1663,6 +2173,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeEmojisPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isEmoji(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepEmojisPrefix(CodePointBuffer buffer) {
@@ -1730,6 +2274,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeEmojiPresentationPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isEmojiPresentation(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepEmojiPresentationPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1793,6 +2371,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeEmojiModifiersPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isEmojiModifier(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepEmojiModifiersPrefix(CodePointBuffer buffer) {
@@ -1860,6 +2472,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeEmojiModifierBasePrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isEmojiModifierBase(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepEmojiModifierBasePrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -1923,6 +2569,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeEmojiComponentsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isEmojiComponent(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepEmojiComponentsPrefix(CodePointBuffer buffer) {
@@ -1990,6 +2670,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeExtendedPictographicPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isExtendedPictographic(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepExtendedPictographicPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -2053,6 +2767,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeWhitespacePrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isWhitespace(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepWhitespacePrefix(CodePointBuffer buffer) {
@@ -2120,6 +2868,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeSpaceCharsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isSpaceChar(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepSpaceCharsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -2183,6 +2965,40 @@ public class CodePointUtils {
         }
 
         buffer.setLength(write);
+    }
+
+    public static void removeISOControlsPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isISOControl(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
     }
 
     public static void keepISOControlsPrefix(CodePointBuffer buffer) {
@@ -2250,6 +3066,40 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
+    public static void removeMirroredPrefix(CodePointBuffer buffer) {
+
+        if (buffer == null || buffer.isEmpty()) {
+            return;
+        }
+
+        int length = buffer.length();
+        int start = 0;
+
+        while (start < length) {
+
+            int codePoint = buffer.get(start);
+
+            if (!Character.isMirrored(codePoint)) {
+                break;
+            }
+
+            start++;
+        }
+
+        if (start == 0) {
+            return;
+        }
+
+        int remaining = length - start;
+
+        for (int i = 0; i < remaining; i++) {
+            buffer.set(i, buffer.get(start + i));
+        }
+
+        buffer.setLength(remaining);
+
+    }
+
     public static void keepMirroredPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
@@ -2272,5 +3122,5 @@ public class CodePointUtils {
 
         buffer.setLength(end);
     }
-    
+
 }
