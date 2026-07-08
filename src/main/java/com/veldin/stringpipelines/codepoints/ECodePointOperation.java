@@ -38,14 +38,16 @@ public enum ECodePointOperation implements ICodePointOperation {
 
     //Keep/Remove htmlEntities / xmlEntities
 
+    // Normalise "'` QuotePunctuation
+
+    // REMOVE_BOM
+
     // SPLIT PREPENT or /we on https://www.compart.com/en/unicode/U+001F
     // Or should we instead of a unicode character, use _ as a 'replacement' character?
 
     // Character based filters
 
-    // KEEP [XXX] PREFIX // REMOVE [XXX] PREFIX
-    // KEEP ALPHANUMERIC PREFIX
-    // KEEP DIGIT PREFIX
+    // Same methods using CharacterHelper
 
     // Character.getType(cp) types
 
