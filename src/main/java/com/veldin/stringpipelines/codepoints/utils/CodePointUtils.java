@@ -1540,7 +1540,7 @@ public class CodePointUtils {
         buffer.setLength(end);
     }
 
-    public static void removeLetterOrDigits(CodePointBuffer buffer) {
+    public static void removeLettersOrDigits(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -1561,7 +1561,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void keepLetterOrDigits(CodePointBuffer buffer) {
+    public static void keepLettersOrDigits(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -1582,7 +1582,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void removeLetterOrDigitsPrefix(CodePointBuffer buffer) {
+    public static void removeLettersOrDigitsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -1616,7 +1616,7 @@ public class CodePointUtils {
 
     }
 
-    public static void keepLetterOrDigitsPrefix(CodePointBuffer buffer) {
+    public static void keepLettersOrDigitsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -1738,7 +1738,7 @@ public class CodePointUtils {
         buffer.setLength(end);
     }
 
-    public static void removeIdeographics(CodePointBuffer buffer) {
+    public static void removeIdeographic(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -1759,7 +1759,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void keepIdeographics(CodePointBuffer buffer) {
+    public static void keepIdeographic(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -1780,7 +1780,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void removeIdeographicsPrefix(CodePointBuffer buffer) {
+    public static void removeIdeographicPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -1814,7 +1814,7 @@ public class CodePointUtils {
 
     }
 
-    public static void keepIdeographicsPrefix(CodePointBuffer buffer) {
+    public static void keepIdeographicPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2233,7 +2233,7 @@ public class CodePointUtils {
         buffer.setLength(end);
     }
 
-    public static void removeEmojiPresentation(CodePointBuffer buffer) {
+    public static void removeEmojiPresentations(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2254,7 +2254,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void keepEmojiPresentation(CodePointBuffer buffer) {
+    public static void keepEmojiPresentations(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2275,7 +2275,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void removeEmojiPresentationPrefix(CodePointBuffer buffer) {
+    public static void removeEmojiPresentationsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2309,7 +2309,7 @@ public class CodePointUtils {
 
     }
 
-    public static void keepEmojiPresentationPrefix(CodePointBuffer buffer) {
+    public static void keepEmojiPresentationsPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2827,7 +2827,7 @@ public class CodePointUtils {
         buffer.setLength(end);
     }
 
-    public static void removeSpaceChars(CodePointBuffer buffer) {
+    public static void removeSpaceChar(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2926,7 +2926,7 @@ public class CodePointUtils {
         buffer.setLength(end);
     }
 
-    public static void removeISOControls(CodePointBuffer buffer) {
+    public static void removeISOControl(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2947,7 +2947,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void keepISOControls(CodePointBuffer buffer) {
+    public static void keepISOControl(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -2968,7 +2968,7 @@ public class CodePointUtils {
         buffer.setLength(write);
     }
 
-    public static void removeISOControlsPrefix(CodePointBuffer buffer) {
+    public static void removeISOControlPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -3002,7 +3002,7 @@ public class CodePointUtils {
 
     }
 
-    public static void keepISOControlsPrefix(CodePointBuffer buffer) {
+    public static void keepISOControlPrefix(CodePointBuffer buffer) {
 
         if (buffer == null || buffer.isEmpty()) {
             return;
@@ -3123,7 +3123,6 @@ public class CodePointUtils {
 
         buffer.setLength(end);
     }
-
 
     public static void removeAsciiLetters(CodePointBuffer buffer) {
 
