@@ -21,13 +21,6 @@ public final class OperationNode {
         return new OperationNode(null, op);
     }
 
-    public static OperationNode of(EOperation op) {
-        return new OperationNode(
-                op.getStringOperation(),
-                op.getCodePointOperation()
-        );
-    }
-
     public boolean hasString() {
         return stringOperation != null;
     }

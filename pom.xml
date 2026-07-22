@@ -6,7 +6,7 @@
 
     <groupId>com.veldin</groupId>
     <artifactId>string-pipelines</artifactId>
-    <version>0.0.5</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <name>String Pipelines</name>
@@ -46,7 +46,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.20.0</version>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
 
         <!-- JUnit 5 (JUnit Jupiter API + Engine) -->

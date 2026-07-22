@@ -2,7 +2,7 @@
 
 A small string utils library for Java that allows you to build reusable and testable string processing flows.
 
-Usefull for **Sanitization, Normalization, Slug Generation, Filtering**, or any repeated operaions on strings.
+Useful for **Sanitization, Normalization, Slug Generation, Filtering**, or any repeated operations on strings.
 
 ## Motivation
 
@@ -32,9 +32,9 @@ Example:
 ```java
 AbstractPipeline pipeline =
         new OperationsPipelineBuilder()
-                .pipe(EStringOperation.DELETE_WHITESPACE)
-                .pipe(EStringOperation.CAPITALIZE)
-                .pipe(EStringOperation.CHOMP)
+                .pipe(StringUtils::deleteWhitespace)
+                .pipe(StringUtils::capitalize)
+                .pipe(StringUtils::chomp)
                 .build();
 ```
 
@@ -58,8 +58,8 @@ void createSlugExampleList() {
 
     AbstractPipeline pipeline =
             new StringPipelineBuilder()
-                    .pipe(EStringOperation.TRIM)
-                    .pipe(EStringOperation.LOWER_CASE)
+                    .pipe(StringUtils::TRIM)
+                    .pipe(StringUtils::LOWER_CASE)
                     .pipe(s -> s.replaceAll("\\s+", "-"))
                     .build();
 
@@ -118,7 +118,6 @@ public interface IStringOperation {
 For example:
 
 ```java
-    .pipe(CAPITALIZE)                           // From this library
     .pipe(StringUtils::capitalize)              // From StringUtils
     .pipe(string -> myOwnFunction(string))      // From yourself
 ```
@@ -165,8 +164,8 @@ For example in our slug pipeline, every step allocates a brand new String.
 ```java
 AbstractPipeline pipeline =
         new StringPipelineBuilder()
-                .pipe(EStringOperation.TRIM)
-                .pipe(EStringOperation.LOWER_CASE)
+                .pipe(StringUtils::TRIM)
+                .pipe(StringUtils::LOWER_CASE)
                 .pipe(s -> s.replaceAll("\\s+", "-"))
                 .build();
 ```
@@ -182,10 +181,10 @@ With that I set up a (verry syntetic) comparison.
 // String pipeline
 AbstractStringPipeline stringPipeline =
         new StringPipelineBuilder()
-                .pipe(EStringOperation.CAPITALIZE)
-                .pipe(EStringOperation.CHOMP)
-                .pipe(EStringOperation.CHOP)
-                .pipe(EStringOperation.DELETE_WHITESPACE)
+                .pipe(StringUtils::capitalize)
+                .pipe(StringUtils::chomp)
+                .pipe(StringUtils::chop)
+                .pipe(StringUtils::deleteWhitespace)
                 .build();
 
 // Code point pipeline
@@ -202,9 +201,9 @@ When repeating the same transformations many thousands of times, the code point 
 Though this is a very (VERY) synthetic test, it was exciting to see the idea actually work.
 
 ```java
-String pipeline duration     : 296 ms
-Code point pipeline duration : 156 ms
-CodePoint/String ratio       : 0.527027027027027
+String pipeline duration     : 323 ms
+Code point pipeline duration : 194 ms
+CodePoint/String ratio       : 0.6006191950464397
 ```
 
 # Combining String and CodePoint Operations
@@ -219,7 +218,7 @@ AbstractPipeline pipeline =
                 .pipe(ECodePointOperation.CAPITALIZE)
                 .pipe(ECodePointOperation.CHOMP)
                 // Followed by a String operation.
-                .pipe(EStringOperation.CHOP)
+                .pipe(StringUtils::CHOP)
                 .build();
 ```
 

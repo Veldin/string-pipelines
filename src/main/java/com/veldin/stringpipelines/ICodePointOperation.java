@@ -9,9 +9,6 @@ import com.veldin.stringpipelines.codepoints.CodePointBuffer;
 @FunctionalInterface
 public non-sealed interface ICodePointOperation extends Operation {
 
-    public int UNIT_SEPARATOR_CODE_POINT = 0x1F;      // 31
-    public char UNIT_SEPARATOR_CHAR = '\u001F';
-
     /**
      * Applies a transformation to the input buffer.
      *

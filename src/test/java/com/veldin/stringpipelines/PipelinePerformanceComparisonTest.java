@@ -4,8 +4,8 @@ import com.veldin.stringpipelines.codepoints.AbstractCodePointPipeline;
 import com.veldin.stringpipelines.codepoints.CodePointPipelineBuilder;
 import com.veldin.stringpipelines.codepoints.ECodePointOperation;
 import com.veldin.stringpipelines.strings.AbstractStringPipeline;
-import com.veldin.stringpipelines.strings.EStringOperation;
 import com.veldin.stringpipelines.strings.StringPipelineBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,16 +13,16 @@ import java.util.List;
 
 class PipelinePerformanceComparisonTest {
 
-    @Test
+    @Test // JUnit @Test is not ideal for comparing
     void compareStringPipelineVsCodePointPipeline() {
 
         // String pipeline
         AbstractStringPipeline stringPipeline =
                 new StringPipelineBuilder()
-                        .pipe(EStringOperation.CAPITALIZE)
-                        .pipe(EStringOperation.CHOMP)
-                        .pipe(EStringOperation.CHOP)
-                        .pipe(EStringOperation.DELETE_WHITESPACE)
+                        .pipe(StringUtils::capitalize)
+                        .pipe(StringUtils::chomp)
+                        .pipe(StringUtils::chop)
+                        .pipe(StringUtils::deleteWhitespace)
                         .build();
 
         // Code point pipeline
@@ -44,6 +44,8 @@ class PipelinePerformanceComparisonTest {
         // Warmup JVM
         for (String input : inputs) {
             stringPipeline.apply(input);
+            stringPipeline.apply(input);
+            codePointPipeline.apply(input);
             codePointPipeline.apply(input);
         }
 

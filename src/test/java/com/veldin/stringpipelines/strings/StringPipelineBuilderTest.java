@@ -1,5 +1,6 @@
 package com.veldin.stringpipelines.strings;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,8 +11,8 @@ class StringPipelineBuilderTest {
     void shouldBuildSimplePipeline() {
 
         AbstractStringPipeline pipeline = new StringPipelineBuilder()
-                .pipe(EStringOperation.TRIM)
-                .pipe(EStringOperation.LOWER_CASE)
+                .pipe(StringUtils::trim)
+                .pipe(StringUtils::lowerCase)
                 .build();
 
         String result = pipeline.apply("  HeLLo WoRLD  ");
@@ -25,13 +26,13 @@ class StringPipelineBuilderTest {
 
         AbstractStringPipeline pipeline = new StringPipelineBuilder()
                 .cached()
-                .pipe(EStringOperation.TRIM)
-                .pipe(EStringOperation.UPPER_CASE)
+                .pipe(StringUtils::trim)
+                .pipe(StringUtils::lowerCase)
                 .build();
 
         String result = pipeline.apply("  hello world  ");
 
-        assertEquals("HELLO WORLD", result);
+        assertEquals("hello world", result);
         assertInstanceOf(CachedStringPipeline.class, pipeline);
     }
 
@@ -39,9 +40,9 @@ class StringPipelineBuilderTest {
     void shouldApplyOperationsInCorrectOrder() {
 
         AbstractStringPipeline pipeline = new StringPipelineBuilder()
-                .pipe(EStringOperation.TRIM)
-                .pipe(EStringOperation.DELETE_WHITESPACE)
-                .pipe(EStringOperation.UPPER_CASE)
+                .pipe(StringUtils::trim)
+                .pipe(StringUtils::deleteWhitespace)
+                .pipe(StringUtils::upperCase)
                 .build();
 
         String result = pipeline.apply("  hello world  ");
@@ -54,9 +55,9 @@ class StringPipelineBuilderTest {
 
         AbstractStringPipeline pipeline = new StringPipelineBuilder()
                 .pipe(
-                        EStringOperation.TRIM,
-                        EStringOperation.LOWER_CASE,
-                        EStringOperation.REVERSE
+                        StringUtils::trim,
+                        StringUtils::lowerCase,
+                        StringUtils::reverse
                 )
                 .build();
 
@@ -71,8 +72,8 @@ class StringPipelineBuilderTest {
         AbstractStringPipeline pipeline = new StringPipelineBuilder()
                 .pipe(
                         java.util.List.of(
-                                EStringOperation.TRIM,
-                                EStringOperation.UPPER_CASE
+                                StringUtils::trim,
+                                StringUtils::upperCase
                         )
                 )
                 .build();
@@ -101,13 +102,13 @@ class StringPipelineBuilderTest {
 
         AbstractStringPipeline inner = new StringPipelineBuilder()
                 .cached()
-                .pipe(EStringOperation.TRIM)
-                .pipe(EStringOperation.LOWER_CASE)
+                .pipe(StringUtils::trim)
+                .pipe(StringUtils::lowerCase)
                 .build();
 
         AbstractStringPipeline outer = new StringPipelineBuilder()
                 .pipe(inner)
-                .pipe(EStringOperation.REVERSE)
+                .pipe(StringUtils::reverse)
                 .build();
 
         String result = outer.apply("  HeLLo  ");

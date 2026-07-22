@@ -102,14 +102,12 @@ public final class CharacterHelper {
     }
 
     public static boolean isMark(int codePoint) {
-        switch (Character.getType(codePoint)) {
-            case Character.NON_SPACING_MARK:
-            case Character.COMBINING_SPACING_MARK:
-            case Character.ENCLOSING_MARK:
-                return true;
-            default:
-                return false;
-        }
+        return switch (Character.getType(codePoint)) {
+            case Character.NON_SPACING_MARK,
+                 Character.COMBINING_SPACING_MARK,
+                 Character.ENCLOSING_MARK -> true;
+            default -> false;
+        };
     }
 
     public static boolean isDecimalDigitNumber(int codePoint) {
@@ -125,14 +123,12 @@ public final class CharacterHelper {
     }
 
     public static boolean isNumber(int codePoint) {
-        switch (Character.getType(codePoint)) {
-            case Character.DECIMAL_DIGIT_NUMBER:
-            case Character.LETTER_NUMBER:
-            case Character.OTHER_NUMBER:
-                return true;
-            default:
-                return false;
-        }
+        return switch (Character.getType(codePoint)) {
+            case Character.DECIMAL_DIGIT_NUMBER,
+                 Character.LETTER_NUMBER,
+                 Character.OTHER_NUMBER -> true;
+            default -> false;
+        };
     }
 
     public static boolean isSpaceSeparator(int codePoint) {
@@ -148,14 +144,12 @@ public final class CharacterHelper {
     }
 
     public static boolean isSeparator(int codePoint) {
-        switch (Character.getType(codePoint)) {
-            case Character.SPACE_SEPARATOR:
-            case Character.LINE_SEPARATOR:
-            case Character.PARAGRAPH_SEPARATOR:
-                return true;
-            default:
-                return false;
-        }
+        return switch (Character.getType(codePoint)) {
+            case Character.SPACE_SEPARATOR,
+                 Character.LINE_SEPARATOR,
+                 Character.PARAGRAPH_SEPARATOR -> true;
+            default -> false;
+        };
     }
 
     public static boolean isControlCategory(int codePoint) {
@@ -207,28 +201,24 @@ public final class CharacterHelper {
     }
 
     public static boolean isQuotePunctuation(int codePoint) {
-        switch (Character.getType(codePoint)) {
-            case Character.INITIAL_QUOTE_PUNCTUATION:
-            case Character.FINAL_QUOTE_PUNCTUATION:
-                return true;
-            default:
-                return false;
-        }
+        return switch (Character.getType(codePoint)) {
+            case Character.INITIAL_QUOTE_PUNCTUATION,
+                 Character.FINAL_QUOTE_PUNCTUATION -> true;
+            default -> false;
+        };
     }
 
     public static boolean isPunctuation(int codePoint) {
-        switch (Character.getType(codePoint)) {
-            case Character.DASH_PUNCTUATION:
-            case Character.START_PUNCTUATION:
-            case Character.END_PUNCTUATION:
-            case Character.CONNECTOR_PUNCTUATION:
-            case Character.OTHER_PUNCTUATION:
-            case Character.INITIAL_QUOTE_PUNCTUATION:
-            case Character.FINAL_QUOTE_PUNCTUATION:
-                return true;
-            default:
-                return false;
-        }
+        return switch (Character.getType(codePoint)) {
+            case Character.DASH_PUNCTUATION,
+                 Character.START_PUNCTUATION,
+                 Character.END_PUNCTUATION,
+                 Character.CONNECTOR_PUNCTUATION,
+                 Character.OTHER_PUNCTUATION,
+                 Character.INITIAL_QUOTE_PUNCTUATION,
+                 Character.FINAL_QUOTE_PUNCTUATION -> true;
+            default -> false;
+        };
     }
 
     public static boolean isMathSymbol(int codePoint) {
@@ -248,14 +238,13 @@ public final class CharacterHelper {
     }
 
     public static boolean isSymbol(int codePoint) {
-        switch (Character.getType(codePoint)) {
-            case Character.MATH_SYMBOL:
-            case Character.CURRENCY_SYMBOL:
-            case Character.MODIFIER_SYMBOL:
-            case Character.OTHER_SYMBOL:
-                return true;
-            default:
-                return false;
-        }
+        return switch (Character.getType(codePoint)) {
+            case Character.MATH_SYMBOL,
+                 Character.CURRENCY_SYMBOL,
+                 Character.MODIFIER_SYMBOL,
+                 Character.OTHER_SYMBOL ->
+                    true;
+            default -> false;
+        };
     }
 }

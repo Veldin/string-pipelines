@@ -2,8 +2,8 @@ package com.veldin.stringpipelines;
 
 import com.veldin.stringpipelines.codepoints.ECodePointOperation;
 import com.veldin.stringpipelines.codepoints.SimpleCodePointPipeline;
-import com.veldin.stringpipelines.strings.EStringOperation;
 import com.veldin.stringpipelines.strings.SimpleStringPipeline;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,9 +15,9 @@ class OperationsPipelineBuilderTest {
 
         AbstractPipeline pipeline =
                 new OperationsPipelineBuilder()
-                        .pipe(EStringOperation.DELETE_WHITESPACE)
-                        .pipe(EStringOperation.CAPITALIZE)
-                        .pipe(EStringOperation.CHOMP)
+                        .pipe(StringUtils::deleteWhitespace)
+                        .pipe(StringUtils::capitalize)
+                        .pipe(StringUtils::chomp)
                         .build();
 
         String result = pipeline.apply("this is a Simple pipeline.\r");
@@ -57,7 +57,7 @@ class OperationsPipelineBuilderTest {
                         .pipe(ECodePointOperation.CAPITALIZE)
                         .pipe(ECodePointOperation.CHOMP)
                         // Followed by a String operation.
-                        .pipe(EStringOperation.CHOP)
+                        .pipe(StringUtils::chop)
                         .build();
 
         String result = pipeline.apply("this is a Simple pipeline.\r");
