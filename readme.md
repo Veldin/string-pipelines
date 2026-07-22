@@ -18,7 +18,7 @@ Get this as a dependency via the Maven Central Repository.
 <dependency>
     <groupId>com.veldin</groupId>
     <artifactId>string-pipelines</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.1</version>
 </dependency>
 ```
 
